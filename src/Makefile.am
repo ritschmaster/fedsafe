@@ -33,6 +33,18 @@ fedsafe_SCRIPTS_SOURCES += sboxed.in.sh
 fedsafe_SCRIPTS_SOURCES += dboxed.in.sh
 fedsafe_SCRIPTS_SOURCES += main.in.sh
 
+desktopdir 	 = $(datadir)/applications
+desktop_DATA =  applications/fedsafe-dboxed-firefox.desktop
+desktop_DATA += applications/fedsafe-dboxed-evince.desktop
+desktop_DATA += applications/fedsafe-dboxed-libreoffice-writer.desktop
+desktop_DATA += applications/fedsafe-dboxed-libreoffice-calc.desktop
+
+fedsafebindir = $(datadir)/fedsafe/bin
+fedsafebin_DATA =  bin/fedsafe_dboxed_firefox.sh
+fedsafebin_DATA += bin/fedsafe_dboxed_evince.sh
+fedsafebin_DATA += bin/fedsafe_dboxed_libreoffice_writer.sh
+fedsafebin_DATA += bin/fedsafe_dboxed_libreoffice_calc.sh
+
 CLEANFILES = $(bin_SCRIPTS)
 
 EXTRA_DIST = $(fedsafe_SCRIPTS_SOURCES)
