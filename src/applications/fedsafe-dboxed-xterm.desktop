@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=(Disposable) Sandboxed XTerm
+Exec=fedsafe dboxed xterm
+Terminal=false
+Type=Application
+Encoding=UTF-8
+Icon=xterm-color
+Categories=System;TerminalEmulator;
+Keywords=shell;prompt;command;commandline;cmd;
+X-Desktop-File-Install-Version=0.26

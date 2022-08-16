@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
-Name=Sandboxed Firefox
-GenericName=Sandboxed Web Browser
+Name=(Disposable) Sandboxed Firefox
+GenericName=(Disposable) Sandboxed Web Browser
 Exec=/usr/bin/bash /usr/share/fedsafe/bin/fedsafe_dboxed_firefox.sh %u
 Icon=firefox
 Terminal=false

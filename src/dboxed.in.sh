@@ -74,6 +74,17 @@ function fedsafe_dboxed_libreoffice_calc() {
     fi
 }
 
+function fedsafe_dboxed_xterm() {
+    input_file="$1"
+
+    shift 1
+    if [ -n "$input_file" ]; then
+        sandbox -X -w $(fedsafe_determine_screen_size) -i "$input_file" xterm $@
+    else
+        sandbox -X -w $(fedsafe_determine_screen_size) xterm $@
+    fi
+}
+
 function fedsafe_dboxed() {
     input_file=""
 
@@ -119,6 +130,11 @@ function fedsafe_dboxed() {
         "libreoffice_calc")
             shift 1
             fedsafe_dboxed_libreoffice_calc "$input_file" $@
+            ;;
+
+        "xterm")
+            shift 1
+            fedsafe_dboxed_xterm "$input_file" $@
             ;;
 
         *)

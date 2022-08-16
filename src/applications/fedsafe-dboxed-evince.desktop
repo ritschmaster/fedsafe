@@ -1,6 +1,6 @@
 [Desktop Entry]
-Name[de]=Sandgekisteter Dokumentenbetrachter
-Name=Sandboxed Document Viewer
+Name[de]=(Wegwerf) Sandgekisteter Dokumentenbetrachter
+Name=(Disposable) Sandboxed Document Viewer
 Exec=/usr/bin/bash /usr/share/fedsafe/bin/fedsafe_dboxed_evince.sh %u
 StartupNotify=true
 Terminal=false

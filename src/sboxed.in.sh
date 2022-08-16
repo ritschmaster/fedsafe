@@ -33,33 +33,77 @@ function fedsafe_sboxed_print_help() {
 function fedsafe_sboxed_firefox() {
     input_file="$1"
 
+    SBOXED_FIREFOX_INCLUDE=/usr/share/fedsafe/config/sboxed_firefox_include.txt
+    SBOXED_FIREFOX_HOME=~/.local/share/fedsafe/sboxed_firefox
+
+    mkdir -p "$SBOXED_FIREFOX_HOME"
+
     shift 1
     if [ -n "$input_file" ]; then
-        sandbox -X -w $(fedsafe_determine_screen_size) -t sandbox_web_t -i "$input_file" firefox $@
+        sandbox -X \
+            -w $(fedsafe_determine_screen_size) \
+            -H "$SBOXED_FIREFOX_HOME" \
+            -I "$SBOXED_FIREFOX_INCLUDE" \
+            -t sandbox_web_t \
+            -i "$input_file" \
+            firefox $@
     else
-        sandbox -X -w $(fedsafe_determine_screen_size) -t sandbox_web_t firefox $@
+        sandbox -X \
+            -w $(fedsafe_determine_screen_size) \
+            -H "$SBOXED_FIREFOX_HOME" \
+            -I "$SBOXED_FIREFOX_INCLUDE" \
+            -t sandbox_web_t \
+            firefox $@
     fi
 }
 
 function fedsafe_sboxed_evince() {
     input_file="$1"
 
+    SBOXED_EVINCE_INCLUDE=/usr/share/fedsafe/config/sboxed_evince_include.txt
+    SBOXED_EVINCE_HOME=~/.local/share/fedsafe/sboxed_evince
+
+    mkdir -p "$SBOXED_EVINCE_HOME"
+
     shift 1
     if [ -n "$input_file" ]; then
-        sandbox -X -w $(fedsafe_determine_screen_size) -i "$input_file" evince $@
+        sandbox -X \
+            -w $(fedsafe_determine_screen_size) \
+            -H "$SBOXED_EVINCE_HOME" \
+            -I "$SBOXED_EVINCE_INCLUDE" \
+            -i "$input_file" \
+            evince $@
     else
-        sandbox -X -w $(fedsafe_determine_screen_size) evince $@
+        sandbox -X \
+            -w $(fedsafe_determine_screen_size) \
+            -H "$SBOXED_EVINCE_HOME" \
+            -I "$SBOXED_EVINCE_INCLUDE" \
+            evince $@
     fi
 }
 
 function fedsafe_sboxed_libreoffice_writer() {
     input_file="$1"
 
+    SBOXED_LIBREOFFICE_INCLUDE=/usr/share/fedsafe/config/sboxed_libreoffice_include.txt
+    SBOXED_LIBREOFFICE_HOME=~/.local/share/fedsafe/sboxed_libreoffice
+
+    mkdir -p "$SBOXED_LIBREOFFICE_HOME"
+
     shift 1
     if [ -n "$input_file" ]; then
-        sandbox -X -w $(fedsafe_determine_screen_size) -i "$input_file" libreoffice -writer $@
+        sandbox -X \
+            -w $(fedsafe_determine_screen_size) \
+            -H "$SBOXED_LIBREOFFICE_HOME" \
+            -I "$SBOXED_LIBREOFFICE_INCLUDE" \
+            -i "$input_file" \
+            libreoffice -writer $@
     else
-        sandbox -X -w $(fedsafe_determine_screen_size) libreoffice -writer $@
+        sandbox -X \
+            -w $(fedsafe_determine_screen_size) \
+            -H "$SBOXED_LIBREOFFICE_HOME" \
+            -I "$SBOXED_LIBREOFFICE_INCLUDE" \
+            libreoffice -writer $@
     fi
 }
 
@@ -68,9 +112,18 @@ function fedsafe_sboxed_libreoffice_calc() {
 
     shift 1
     if [ -n "$input_file" ]; then
-        sandbox -X -w $(fedsafe_determine_screen_size) -i "$input_file" libreoffice -calc $@
+        sandbox -X \
+            -w $(fedsafe_determine_screen_size) \
+            -H "$SBOXED_LIBREOFFICE_HOME" \
+            -I "$SBOXED_LIBREOFFICE_INCLUDE" \
+            -i "$input_file" \
+            libreoffice -calc $@
     else
-        sandbox -X -w $(fedsafe_determine_screen_size) libreoffice -calc $@
+        sandbox -X \
+            -w $(fedsafe_determine_screen_size) \
+            -H "$SBOXED_LIBREOFFICE_HOME" \
+            -I "$SBOXED_LIBREOFFICE_INCLUDE" \
+            libreoffice -calc $@
     fi
 }
 

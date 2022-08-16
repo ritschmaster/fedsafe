@@ -38,12 +38,18 @@ desktop_DATA =  applications/fedsafe-dboxed-firefox.desktop
 desktop_DATA += applications/fedsafe-dboxed-evince.desktop
 desktop_DATA += applications/fedsafe-dboxed-libreoffice-writer.desktop
 desktop_DATA += applications/fedsafe-dboxed-libreoffice-calc.desktop
+desktop_DATA += applications/fedsafe-dboxed-xterm.desktop
 
 fedsafebindir = $(datadir)/fedsafe/bin
 fedsafebin_DATA =  bin/fedsafe_dboxed_firefox.sh
 fedsafebin_DATA += bin/fedsafe_dboxed_evince.sh
 fedsafebin_DATA += bin/fedsafe_dboxed_libreoffice_writer.sh
 fedsafebin_DATA += bin/fedsafe_dboxed_libreoffice_calc.sh
+
+fedsafeconfigdir = $(datadir)/fedsafe/config
+fedsafeconfig_DATA =  config/sboxed_firefox_include.txt
+fedsafeconfig_DATA += config/sboxed_evince_include.txt
+fedsafeconfig_DATA += config/sboxed_libreoffice_include.txt
 
 CLEANFILES = $(bin_SCRIPTS)
 
