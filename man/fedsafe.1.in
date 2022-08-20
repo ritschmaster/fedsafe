@@ -3,7 +3,7 @@
 .\"    Manual: fedsafe Manual
 .\"  Language: English
 .\"
-.TH "fedsafe" "1" "01/16/2021" "fedsafe 0.1" "fedsafe Manual"
+.TH "PACKAGE_NAME" "1" "01/16/2021" "PACKAGE_NAME PACKAGE_VERSION" "PACKAGE_NAME Manual"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -57,9 +57,9 @@ sboxed
 Start a sandbox.\&.
 .RE
 .PP
-dbox
+box
 .RS 4
-Inspect or perform an operation on a running disposable sandbox.\&.
+Inspect or perform an operation on a running (disposable) sandbox.\&.
 .RE
 .PP
 .sp

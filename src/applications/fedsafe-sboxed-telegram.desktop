@@ -1,0 +1,15 @@
+[Desktop Entry]
+Version=1.5
+Name=Sandboxed Telegram Desktop
+Exec=/usr/bin/bash /usr/share/fedsafe/bin/fedsafe_sboxed_telegram.sh %u
+Icon=telegram
+Terminal=false
+StartupWMClass=TelegramDesktop
+Type=Application
+Categories=Chat;Network;InstantMessaging;Qt;
+MimeType=x-scheme-handler/tg;
+Keywords=tg;chat;im;messaging;messenger;sms;tdesktop;
+SingleMainWindow=true
+X-GNOME-UsesNotifications=true
+X-GNOME-SingleWindow=true
+

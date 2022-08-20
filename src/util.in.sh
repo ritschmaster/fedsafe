@@ -25,3 +25,43 @@
 function fedsafe_determine_screen_size() {
     xdpyinfo | grep "dimensions" | awk '{ print $2 }'
 }
+
+# Create a new xserver for a sandbox
+#
+# The first parameter is the window title for the window containing the new xserver.
+#
+# The new display number is printed to stdout.
+function fedsafe_new_display() {
+    local window_title="$1"
+
+    local displayno_file=$(mktemp)
+
+    exec 5>"$displayno_file"
+    # /usr/bin/systemd-run \
+    #     --user \
+    #     --collect \
+    #     -p PrivateUsers=yes \
+    #     -p TemporaryFileSystem=/tmp \
+    #     -p BindPaths="$displayno_file" \
+    #     /usr/bin/Xephyr -resizeable -screen $(fedsafe_determine_screen_size) -title "$window_title" -displayfd 5
+
+    /usr/bin/Xephyr -resizeable -screen $(fedsafe_determine_screen_size) -title "$window_title" -displayfd 5 >/dev/null & disown
+    sleep 3s
+    exec 5>&-
+
+    local displayno=$(cat "$displayno_file")
+    displayno=":$displayno"
+
+    rm "$displayno_file"
+
+    /usr/bin/systemd-run \
+        --user \
+        --collect \
+        -E DISPLAY="$displayno" \
+        -p ProtectSystem=yes \
+        -p ProtectHome=yes \
+        /usr/bin/matchbox-window-manager \
+        -use_titlebar no
+
+    echo "$displayno"
+}

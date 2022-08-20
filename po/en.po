@@ -1,7 +1,7 @@
 # fedsafe texts
-# Copyright (C) 2022 Richard Bäck
+# Copyright (C) 2022 Richard BÃ¤ck
 # This file is distributed under the same license as the fedsafe package.
-# Richard Bäck <richard.baeck@mailbox.org>, 2022
+# Richard BÃ¤ck <richard.baeck@mailbox.org>, 2022
 #
 msgid ""
 msgstr ""
@@ -34,6 +34,9 @@ msgid "sbox help text\n"
 msgstr ""
 
 msgid "sboxed help text\n"
+msgstr ""
+
+msgid "sboxed firefox newwindow error\n"
 msgstr ""
 
 msgid "dboxed help text\n"

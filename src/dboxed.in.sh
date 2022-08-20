@@ -31,9 +31,9 @@ function fedsafe_dboxed_print_help() {
 }
 
 function fedsafe_dboxed_firefox() {
-    input_file="$1"
-
+    local input_file="$1"
     shift 1
+
     if [ -n "$input_file" ]; then
         sandbox -X -w $(fedsafe_determine_screen_size) -t sandbox_web_t -i "$input_file" firefox $@
     else
@@ -42,9 +42,9 @@ function fedsafe_dboxed_firefox() {
 }
 
 function fedsafe_dboxed_evince() {
-    input_file="$1"
-
+    local input_file="$1"
     shift 1
+
     if [ -n "$input_file" ]; then
         sandbox -X -w $(fedsafe_determine_screen_size) -i "$input_file" evince $@
     else
@@ -53,9 +53,9 @@ function fedsafe_dboxed_evince() {
 }
 
 function fedsafe_dboxed_libreoffice_writer() {
-    input_file="$1"
-
+    local input_file="$1"
     shift 1
+
     if [ -n "$input_file" ]; then
         sandbox -X -w $(fedsafe_determine_screen_size) -i "$input_file" libreoffice -writer $@
     else
@@ -64,9 +64,9 @@ function fedsafe_dboxed_libreoffice_writer() {
 }
 
 function fedsafe_dboxed_libreoffice_calc() {
-    input_file="$1"
-
+    local input_file="$1"
     shift 1
+
     if [ -n "$input_file" ]; then
         sandbox -X -w $(fedsafe_determine_screen_size) -i "$input_file" libreoffice -calc $@
     else
@@ -75,9 +75,9 @@ function fedsafe_dboxed_libreoffice_calc() {
 }
 
 function fedsafe_dboxed_xterm() {
-    input_file="$1"
-
+    local input_file="$1"
     shift 1
+
     if [ -n "$input_file" ]; then
         sandbox -X -w $(fedsafe_determine_screen_size) -i "$input_file" xterm $@
     else
@@ -86,7 +86,7 @@ function fedsafe_dboxed_xterm() {
 }
 
 function fedsafe_dboxed() {
-    input_file=""
+    local input_file=""
 
     while getopts "hi:" opt; do
         case "$opt" in
@@ -109,31 +109,27 @@ function fedsafe_dboxed() {
 
     shift $((OPTIND-1))
 
-    command=$1
+    local command=$1
+    shift 1
 
     case $command in
         "firefox")
-            shift 1
             fedsafe_dboxed_firefox "$input_file" $@
             ;;
 
         "evince")
-            shift 1
             fedsafe_dboxed_evince "$input_file" $@
             ;;
 
         "libreoffice_writer")
-            shift 1
             fedsafe_dboxed_libreoffice_writer "$input_file" $@
             ;;
 
         "libreoffice_calc")
-            shift 1
             fedsafe_dboxed_libreoffice_calc "$input_file" $@
             ;;
 
         "xterm")
-            shift 1
             fedsafe_dboxed_xterm "$input_file" $@
             ;;
 

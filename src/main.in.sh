@@ -51,9 +51,9 @@ case "$command" in
 		fedsafe_setup $@
 		;;
 
-	"sbox")
+	"box")
 		shift 1
-		fedsafe_sbox $@
+		fedsafe_box $@
 		;;
 
 	"sboxed")

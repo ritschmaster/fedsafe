@@ -47,6 +47,8 @@ rpm:
 		-d xsel \
 		-d selinux-policy-sandbox \
 		-d policycoreutils-sandbox \
+		-d xorg-x11-server-Xephyr \
+		-d matchbox-window-manager \
 		-d fail2ban \
 		-n $(PACKAGE_NAME) \
 		-v $(PACKAGE_VERSION) \

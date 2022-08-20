@@ -2,21 +2,20 @@
 
 ![GitHub All Releases](https://img.shields.io/github/downloads/ritschmaster/fedsafe/total)
 
-Easy security for beginners and novice Fedora users
+Easy security for new and novice Fedora users
 
 ## Features
 
-1. Enable disposable sandboxes for applications that might require disposable sandboxes
+1. Disposable sandboxes for applications that might require disposable sandboxes
     1. Firefox
     2. Evince
     3. Libreoffice Writer
     4. Libreoffice Calc 
-2. Enable disposable sandboxes for arbitary applications (TODO)
-3. Enable sandboxes for important applications
+2. Disposable sandboxes for arbitary applications (TODO)
+3. Sandboxes for important applications
     1. Firefox
-    2. Evince
-    3. Libreoffice Writer
-    4. Libreoffice Calc
+    2. Telegram
+    3. Hexchat
 4. Supply sane security defaults
     1. `hidepid=2` (TODO)
  

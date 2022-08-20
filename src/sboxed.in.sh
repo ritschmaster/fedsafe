@@ -22,6 +22,18 @@
 # SOFTWARE.
 ################################################################################
 
+FEDSAFE_SBOXED_HOME_DOWNLOADS=$HOME/Downloads
+
+FEDSAFE_SBOXED_FIREFOX_UNIT="fedsafe-sboxed-firefox"
+FEDSAFE_SBOXED_FIREFOX_MOZILLA="$HOME/.mozilla"
+FEDSAFE_SBOXED_FIREFOX_MOZILLA_FIREFOX="$FEDSAFE_SBOXED_FIREFOX_MOZILLA/firefox"
+FEDSAFE_SBOXED_FIREFOX_MOZILLA_PROFILES_INI="$FEDSAFE_SBOXED_FIREFOX_MOZILLA_FIREFOX/profiles.ini"
+
+FEDSAFE_SBOXED_TELEGRAM_UNIT="fedsafe-sboxed-telegram"
+
+FEDSAFE_SBOXED_HEXCHAT_UNIT="fedsafe-sboxed-hexchat"
+FEDSAFE_SBOXED_HEXCHAT_CONFIG="$HOME/.config/hexchat"
+
 function fedsafe_sboxed_print_help() {
     fedsafe_print_version
 
@@ -31,106 +43,172 @@ function fedsafe_sboxed_print_help() {
 }
 
 function fedsafe_sboxed_firefox() {
-    input_file="$1"
+    local input_file="$1"
+    local new_display="$2"
+    shift 2
 
-    SBOXED_FIREFOX_INCLUDE=/usr/share/fedsafe/config/sboxed_firefox_include.txt
-    SBOXED_FIREFOX_HOME=~/.local/share/fedsafe/sboxed_firefox
+    ############################################################################
+    # Analyze Firefox's arguments
+    local next_contains_profile="0"
+    local profile_name=""
+    for arg in $@; do
+        if [ "$next_contains_profile" = "1" ]; then
+            profile_name=$(basename $arg)
+            FEDSAFE_SBOXED_FIREFOX_UNIT="$FEDSAFE_SBOXED_FIREFOX_UNIT-$profile_name"
+            FEDSAFE_SBOXED_FIREFOX_MOZILLA_FIREFOX="$FEDSAFE_SBOXED_FIREFOX_MOZILLA_FIREFOX/$profile_name"
+            next_contains_profile="0"
+        fi
 
-    mkdir -p "$SBOXED_FIREFOX_HOME"
+        if [ "$arg" = "--profile" ]; then
+            next_contains_profile="1"
+        fi
+    done
 
-    shift 1
-    if [ -n "$input_file" ]; then
-        sandbox -X \
-            -w $(fedsafe_determine_screen_size) \
-            -H "$SBOXED_FIREFOX_HOME" \
-            -I "$SBOXED_FIREFOX_INCLUDE" \
-            -t sandbox_web_t \
-            -i "$input_file" \
-            firefox $@
+    ###########################################################################
+    # Check if there is already a running instance
+    local found_unit=$(/usr/bin/systemctl --user list-units | grep "$FEDSAFE_SBOXED_FIREFOX_UNIT")
+
+    ############################################################################
+    # Screen setup
+    local displayno=":0"
+    if [ "$new_display" -eq 1 ]; then
+        ########################################################################
+        # Deny opening a new window in the selected profile
+        if [ -n "$found_unit" ]; then
+            fedsafe_gettext "sboxed firefox newwindow error" >&2
+            exit 1
+        fi
+
+        local title="Sandboxed Firefox"
+        local nice_profile_name=""
+        if [ -n "$profile_name" ]; then
+            nice_profile_name=$(echo $profile_name | cut -d'.' -f 2)
+        fi
+
+        displayno=$(fedsafe_new_display "Sandboxed Firefox $nice_profile_name")
     else
-        sandbox -X \
-            -w $(fedsafe_determine_screen_size) \
-            -H "$SBOXED_FIREFOX_HOME" \
-            -I "$SBOXED_FIREFOX_INCLUDE" \
-            -t sandbox_web_t \
-            firefox $@
+        ########################################################################
+        # Allow just opening a new window in the selected profile
+        if [ -n "$found_unit" ]; then
+            FEDSAFE_SBOXED_FIREFOX_UNIT="$FEDSAFE_SBOXED_FIREFOX_UNIT$RANDOM"
+        fi
+    fi
+
+    ############################################################################
+    # Start Firefox
+    if [ -n "$input_file" ]; then
+        /usr/bin/systemd-run \
+            --user \
+            --collect \
+            --unit="$FEDSAFE_SBOXED_FIREFOX_UNIT" \
+            -E DISPLAY="$displayno" \
+            -p PrivateUsers=yes \
+            -p ProtectSystem=yes \
+            -p TemporaryFileSystem=$HOME/ \
+            -p BindPaths="$FEDSAFE_SBOXED_FIREFOX_MOZILLA_FIREFOX" \
+            -p BindPaths="$FEDSAFE_SBOXED_HOME_DOWNLOADS" \
+            -p BindPaths=$input_file \
+            /usr/bin/firefox $@
+    else
+        /usr/bin/systemd-run \
+            --user \
+            --collect \
+            --unit="$FEDSAFE_SBOXED_FIREFOX_UNIT" \
+            -E DISPLAY="$displayno" \
+            -p PrivateUsers=yes \
+            -p ProtectSystem=yes \
+            -p TemporaryFileSystem=$HOME/ \
+            -p BindPaths="$FEDSAFE_SBOXED_FIREFOX_MOZILLA_FIREFOX" \
+            -p BindPaths="$FEDSAFE_SBOXED_HOME_DOWNLOADS" \
+            /usr/bin/firefox $@
     fi
 }
 
-function fedsafe_sboxed_evince() {
-    input_file="$1"
+function fedsafe_sboxed_telegram() {
+    local input_file="$1"
+    local new_display="$2"
+    shift 2
 
-    SBOXED_EVINCE_INCLUDE=/usr/share/fedsafe/config/sboxed_evince_include.txt
-    SBOXED_EVINCE_HOME=~/.local/share/fedsafe/sboxed_evince
+    ############################################################################
+    # Screen setup
+    local displayno=":0"
+    if [ "$new_display" -eq 1 ]; then
+        displayno=$(fedsafe_new_display "Sandboxed Telegram")
+    fi
 
-    mkdir -p "$SBOXED_EVINCE_HOME"
-
-    shift 1
     if [ -n "$input_file" ]; then
-        sandbox -X \
-            -w $(fedsafe_determine_screen_size) \
-            -H "$SBOXED_EVINCE_HOME" \
-            -I "$SBOXED_EVINCE_INCLUDE" \
-            -i "$input_file" \
-            evince $@
+        /usr/bin/systemd-run \
+            --user \
+            --collect \
+            --unit="$FEDSAFE_SBOXED_TELEGRAM_UNIT" \
+            -E DISPLAY="$displayno" \
+            -p PrivateUsers=yes \
+            -p ProtectSystem=yes \
+            -p TemporaryFileSystem=$HOME/ \
+            -p BindPaths=$HOME/.local/share/TelegramDesktop \
+            -p BindPaths="$FEDSAFE_SBOXED_HOME_DOWNLOADS" \
+            -p BindPaths=$input_file \
+            /usr/bin/telegram-desktop
     else
-        sandbox -X \
-            -w $(fedsafe_determine_screen_size) \
-            -H "$SBOXED_EVINCE_HOME" \
-            -I "$SBOXED_EVINCE_INCLUDE" \
-            evince $@
+        /usr/bin/systemd-run \
+            --user \
+            --collect \
+            --unit="$FEDSAFE_SBOXED_TELEGRAM_UNIT" \
+            -E DISPLAY="$displayno" \
+            -p PrivateUsers=yes \
+            -p ProtectSystem=yes \
+            -p TemporaryFileSystem=$HOME/ \
+            -p BindPaths=$HOME/.local/share/TelegramDesktop \
+            -p BindPaths="$FEDSAFE_SBOXED_HOME_DOWNLOADS" \
+            /usr/bin/telegram-desktop
     fi
 }
 
-function fedsafe_sboxed_libreoffice_writer() {
-    input_file="$1"
+function fedsafe_sboxed_hexchat() {
+    local input_file="$1"
+    local new_display="$2"
+    shift 2
 
-    SBOXED_LIBREOFFICE_INCLUDE=/usr/share/fedsafe/config/sboxed_libreoffice_include.txt
-    SBOXED_LIBREOFFICE_HOME=~/.local/share/fedsafe/sboxed_libreoffice
-
-    mkdir -p "$SBOXED_LIBREOFFICE_HOME"
-
-    shift 1
-    if [ -n "$input_file" ]; then
-        sandbox -X \
-            -w $(fedsafe_determine_screen_size) \
-            -H "$SBOXED_LIBREOFFICE_HOME" \
-            -I "$SBOXED_LIBREOFFICE_INCLUDE" \
-            -i "$input_file" \
-            libreoffice -writer $@
-    else
-        sandbox -X \
-            -w $(fedsafe_determine_screen_size) \
-            -H "$SBOXED_LIBREOFFICE_HOME" \
-            -I "$SBOXED_LIBREOFFICE_INCLUDE" \
-            libreoffice -writer $@
+    ############################################################################
+    # Screen setup
+    local displayno=":0"
+    if [ "$new_display" -eq 1 ]; then
+        displayno=$(fedsafe_new_display "Sandboxed Hexchat")
     fi
-}
 
-function fedsafe_sboxed_libreoffice_calc() {
-    input_file="$1"
-
-    shift 1
     if [ -n "$input_file" ]; then
-        sandbox -X \
-            -w $(fedsafe_determine_screen_size) \
-            -H "$SBOXED_LIBREOFFICE_HOME" \
-            -I "$SBOXED_LIBREOFFICE_INCLUDE" \
-            -i "$input_file" \
-            libreoffice -calc $@
+        /usr/bin/systemd-run \
+            --user \
+            --collect \
+            --unit="$FEDSAFE_SBOXED_HEXCHAT_UNIT" \
+            -E DISPLAY="$displayno" \
+            -p PrivateUsers=yes \
+            -p ProtectSystem=yes \
+            -p TemporaryFileSystem=$HOME/ \
+            -p BindPaths="$FEDSAFE_SBOXED_HEXCHAT_CONFIG" \
+            -p BindPaths="$FEDSAFE_SBOXED_HOME_DOWNLOADS" \
+            -p BindPaths=$input_file \
+            /usr/bin/hexchat
     else
-        sandbox -X \
-            -w $(fedsafe_determine_screen_size) \
-            -H "$SBOXED_LIBREOFFICE_HOME" \
-            -I "$SBOXED_LIBREOFFICE_INCLUDE" \
-            libreoffice -calc $@
+        /usr/bin/systemd-run \
+            --user \
+            --collect \
+            --unit="$FEDSAFE_SBOXED_HEXCHAT_UNIT" \
+            -E DISPLAY="$displayno" \
+            -p PrivateUsers=yes \
+            -p ProtectSystem=yes \
+            -p TemporaryFileSystem=$HOME/ \
+            -p BindPaths="$FEDSAFE_SBOXED_HEXCHAT_CONFIG" \
+            -p BindPaths="$FEDSAFE_SBOXED_HOME_DOWNLOADS" \
+            /usr/bin/hexchat
     fi
 }
 
 function fedsafe_sboxed() {
-    input_file=""
+    local input_file=""
+    local new_display="1"
 
-    while getopts "hi:" opt; do
+    while getopts "hi:n:" opt; do
         case "$opt" in
             "h")
                 fedsafe_sboxed_print_help
@@ -139,6 +217,14 @@ function fedsafe_sboxed() {
 
             "i")
                 input_file="${OPTARG}"
+                ;;
+
+            "n")
+                new_display="${OPTARG}"
+                if [ "$new_display" -ne 0 -a "$new_display" -ne 1 ]; then
+                    fedsafe_sboxed_print_help
+                    exit 1
+                fi
                 ;;
 
             *)
@@ -151,27 +237,20 @@ function fedsafe_sboxed() {
 
     shift $((OPTIND-1))
 
-    command=$1
+    local command=$1
+    shift 1
 
     case $command in
         "firefox")
-            shift 1
-            fedsafe_sboxed_firefox "$input_file" $@
+            fedsafe_sboxed_firefox "$input_file" "$new_display" $@
             ;;
 
-        "evince")
-            shift 1
-            fedsafe_sboxed_evince "$input_file" $@
+        "telegram")
+            fedsafe_sboxed_telegram "$input_file" "$new_display" $@
             ;;
 
-        "libreoffice_writer")
-            shift 1
-            fedsafe_sboxed_libreoffice_writer "$input_file" $@
-            ;;
-
-        "libreoffice_calc")
-            shift 1
-            fedsafe_sboxed_libreoffice_calc "$input_file" $@
+        "hexchat")
+            fedsafe_sboxed_hexchat "$input_file" "$new_display" $@
             ;;
 
         *)

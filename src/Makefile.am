@@ -28,28 +28,29 @@ fedsafe_SCRIPTS_SOURCES =  gettext.in.sh
 fedsafe_SCRIPTS_SOURCES += help.in.sh
 fedsafe_SCRIPTS_SOURCES += util.in.sh
 fedsafe_SCRIPTS_SOURCES += setup.in.sh
-fedsafe_SCRIPTS_SOURCES += sbox.in.sh
+fedsafe_SCRIPTS_SOURCES += box.in.sh
 fedsafe_SCRIPTS_SOURCES += sboxed.in.sh
 fedsafe_SCRIPTS_SOURCES += dboxed.in.sh
 fedsafe_SCRIPTS_SOURCES += main.in.sh
 
 desktopdir 	 = $(datadir)/applications
-desktop_DATA =  applications/fedsafe-dboxed-firefox.desktop
-desktop_DATA += applications/fedsafe-dboxed-evince.desktop
+desktop_DATA =  applications/fedsafe-dboxed-evince.desktop
+desktop_DATA += applications/fedsafe-dboxed-firefox.desktop
 desktop_DATA += applications/fedsafe-dboxed-libreoffice-writer.desktop
 desktop_DATA += applications/fedsafe-dboxed-libreoffice-calc.desktop
 desktop_DATA += applications/fedsafe-dboxed-xterm.desktop
+desktop_DATA += applications/fedsafe-sboxed-firefox.desktop
+desktop_DATA += applications/fedsafe-sboxed-hexchat.desktop
+desktop_DATA += applications/fedsafe-sboxed-telegram.desktop
 
 fedsafebindir = $(datadir)/fedsafe/bin
-fedsafebin_DATA =  bin/fedsafe_dboxed_firefox.sh
-fedsafebin_DATA += bin/fedsafe_dboxed_evince.sh
+fedsafebin_DATA =  bin/fedsafe_dboxed_evince.sh
+fedsafebin_DATA += bin/fedsafe_dboxed_firefox.sh
 fedsafebin_DATA += bin/fedsafe_dboxed_libreoffice_writer.sh
 fedsafebin_DATA += bin/fedsafe_dboxed_libreoffice_calc.sh
-
-fedsafeconfigdir = $(datadir)/fedsafe/config
-fedsafeconfig_DATA =  config/sboxed_firefox_include.txt
-fedsafeconfig_DATA += config/sboxed_evince_include.txt
-fedsafeconfig_DATA += config/sboxed_libreoffice_include.txt
+fedsafebin_DATA += bin/fedsafe_sboxed_firefox.sh
+fedsafebin_DATA += bin/fedsafe_sboxed_hexchat.sh
+fedsafebin_DATA += bin/fedsafe_sboxed_telegram.sh
 
 CLEANFILES = $(bin_SCRIPTS)
 

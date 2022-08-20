@@ -22,6 +22,13 @@
 # SOFTWARE.
 ################################################################################
 
-man1_MANS = fedsafe.1
+man1_MANS =  fedsafe.1
+man1_MANS += fedsafe.sboxed.1
 
-dist_man_MANS = fedsafe.1
+dist_man_MANS =  fedsafe.1
+dist_man_MANS += fedsafe.sboxed.1
+
+fedsafe.1: fedsafe.1.in
+	cp fedsafe.1.in fedsafe.1
+	sed -i s/PACKAGE_NAME/@PACKAGE_NAME@/g fedsafe.1
+	sed -i s/PACKAGE_VERSION/@PACKAGE_VERSION@/g fedsafe.1
