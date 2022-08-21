@@ -33,19 +33,38 @@ function fedsafe_box_print_help() {
 function fedsafe_box_print_display() {
     local window_name=$(xprop | grep WM_NAME)
     local is_dboxed=$(echo $window_name | grep 'Sandbox.*--.*')
+
     if [ -n "$is_dboxed" ]; then
         window_name=${window_name:19:-2}
     else
         window_name=${window_name:19:-1}
     fi
 
-    local window_pid=$(ps -x | grep "$window_name" | head -n 1 | cut -d' ' -f 3)
-    local matchbox_pid=$(pstree -p | grep -A 100000 $window_pid | grep matchbox | head -n 1 | cut -d'(' -f 2 | cut -d')' -f 1)
+    local window_pid=$(ps -x | grep "$window_name" | head -n 1 | awk '{ print $1 }')
+
+    local matchbox_pid=""
+    if [ -n "$is_dboxed" ]; then
+        matchbox_pid=$(pstree -p | grep -A 100000 $window_pid | grep matchbox | head -n 1 | cut -d'(' -f 2 | cut -d')' -f 1)
+    else
+        local matchbox_pid_cands=$(pstree -p | grep matchbox | cut -d'(' -f 2 | cut -d')' -f 1)
+        local xephyr_pid=""
+        for matchbox_pid_cand in $matchbox_pid_cands; do
+            xephyr_pid=$(cat /proc/$matchbox_pid_cand/environ | tr '\0' '\n' | grep 'FEDSAFE_XEPHYR_PID=')
+            xephyr_pid=${xephyr_pid:19}
+
+            if [ "$xephyr_pid" = "$window_pid" ]; then
+                matchbox_pid=$matchbox_pid_cand
+                break
+            fi
+        done
+
+    fi
 
     local window_display=$(cat /proc/$matchbox_pid/environ | tr '\0' '\n' | grep 'DISPLAY=')
     window_display=${window_display:8}
 
     echo $window_display
+    exit
 }
 
 function fedsafe_box_clipboard_copy() {

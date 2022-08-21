@@ -50,6 +50,18 @@ The default value is 1.
 .PP
 
 .SH "APPLICATION"
+evince
+.RS 4
+Starts Telegram Deskop chat application in a sandbox.
+.PP
+.RS 4
+If you are using -n 1, then please make sure to check the option Settings > Advanced > Use system winodw frame.
+.PP
+If you are using -n 1, then please make sure to check the option Settings > Notifications and Sounds > Use native notifications. Otherwise you will not receive any popup notifications.
+.RE
+.RE
+.PP
+
 .PP
 firefox
 .RS 4
@@ -58,33 +70,21 @@ Starts the Mozilla Firefox web browser in a sandbox.
 .RS 4
 Profiles are separated in different sandbox environments automatically.
 .PP
-If using -n 1, then starting a Firefox sandbox multiple times is not supported.
+If you are using -n 1, then starting a Firefox sandbox multiple times will open a new window for the same instance but in a new Xserver.
 .RE
 .RE
 .PP
 
-hexchat
+libreoffice_calc
 .RS 4
 Starts the HexChat IRC client in a sandbox.
 .RE
 .PP
 .sp
 
-telegram
+libreoffice_writer
 .RS 4
-Starts Telegram Deskop chat application in a sandbox.
-.PP
-.RS 4
-If you are using -n 1, then please make sure to check the option Settings > Advanced > Use system winodw frame.
-.PP
-Caution: If you are using -n 1, then you will not receive any popup notifications.
-.RE
-.RE
-.PP
-
-thunderbird
-.RS 4
-Starts the Mozilla Thunderbird e-mail client in a sandbox.
+Starts the HexChat IRC client in a sandbox.
 .RE
 .PP
 .sp

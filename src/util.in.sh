@@ -45,8 +45,28 @@ function fedsafe_new_display() {
     #     -p BindPaths="$displayno_file" \
     #     /usr/bin/Xephyr -resizeable -screen $(fedsafe_determine_screen_size) -title "$window_title" -displayfd 5
 
-    /usr/bin/Xephyr -resizeable -screen $(fedsafe_determine_screen_size) -title "$window_title" -displayfd 5 >/dev/null & disown
-    sleep 3s
+    # /usr/bin/Xephyr \
+    #     -resizeable \
+    #     -screen $(fedsafe_determine_screen_size) \
+    #     -title "$window_title" \
+    #     -nolock \
+    #     -terminate \
+    #     -reset \
+    #     -dpi 96.0 \
+    #     -nolisten tcp \
+    #     -displayfd 5 \
+    #     >/dev/null & disown
+
+    /usr/bin/Xephyr \
+        -resizeable \
+        -screen $(fedsafe_determine_screen_size) \
+        -title "$window_title" \
+        -displayfd 5 \
+        >/dev/null & disown
+
+    xephyr_pid=$(pidof /usr/bin/Xephyr | cut -d' ' -f 1)
+
+    sleep 2s
     exec 5>&-
 
     local displayno=$(cat "$displayno_file")
@@ -57,6 +77,7 @@ function fedsafe_new_display() {
     /usr/bin/systemd-run \
         --user \
         --collect \
+        -E FEDSAFE_XEPHYR_PID=$xephyr_pid \
         -E DISPLAY="$displayno" \
         -p ProtectSystem=yes \
         -p ProtectHome=yes \

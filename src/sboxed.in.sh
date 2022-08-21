@@ -29,10 +29,15 @@ FEDSAFE_SBOXED_FIREFOX_MOZILLA="$HOME/.mozilla"
 FEDSAFE_SBOXED_FIREFOX_MOZILLA_FIREFOX="$FEDSAFE_SBOXED_FIREFOX_MOZILLA/firefox"
 FEDSAFE_SBOXED_FIREFOX_MOZILLA_PROFILES_INI="$FEDSAFE_SBOXED_FIREFOX_MOZILLA_FIREFOX/profiles.ini"
 
-FEDSAFE_SBOXED_TELEGRAM_UNIT="fedsafe-sboxed-telegram"
-
 FEDSAFE_SBOXED_HEXCHAT_UNIT="fedsafe-sboxed-hexchat"
 FEDSAFE_SBOXED_HEXCHAT_CONFIG="$HOME/.config/hexchat"
+
+FEDSAFE_SBOXED_TELEGRAM_UNIT="fedsafe-sboxed-telegram"
+
+FEDSAFE_SBOXED_THUNDERBIRD_UNIT="fedsafe-sboxed-firefox"
+FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA="$HOME/.mozilla"
+FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA_THUNDERBIRD="$FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA/firefox"
+FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA_PROFILES_INI="$FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA_THUNDERBIRD/profiles.ini"
 
 function fedsafe_sboxed_print_help() {
     fedsafe_print_version
@@ -96,31 +101,63 @@ function fedsafe_sboxed_firefox() {
 
     ############################################################################
     # Start Firefox
+    local systemd_args=""
+    systemd_args="$systemd_args--user\n"
+    systemd_args="$systemd_args--collect\n"
+    systemd_args="$systemd_args-E DISPLAY=\"$displayno\"\n"
+    systemd_args="$systemd_args-p PrivateUsers=yes\n"
+    systemd_args="$systemd_args-p BindPaths=\"$FEDSAFE_SBOXED_HOME_DOWNLOADS\"\n"
+
+    systemd_args="$systemd_args-p ProtectSystem=yes\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=$HOME\n"
+
+    if [ -n "$input_file" ]; then
+        systemd_args="$systemd_args-p BindPaths=\"$input_file\"\n"
+    fi
+    systemd_args="$systemd_args-p BindPaths=\"$FEDSAFE_SBOXED_FIREFOX_MOZILLA_FIREFOX\"\n"
+    systemd_args="$systemd_args--unit=\"$FEDSAFE_SBOXED_FIREFOX_UNIT\"\n"
+    systemd_args="$systemd_args/usr/bin/firefox $@"
+
+    echo -en $systemd_args | xargs /usr/bin/systemd-run
+}
+
+function fedsafe_sboxed_hexchat() {
+    local input_file="$1"
+    local new_display="$2"
+    shift 2
+
+    ############################################################################
+    # Screen setup
+    local displayno=":0"
+    if [ "$new_display" -eq 1 ]; then
+        displayno=$(fedsafe_new_display "Sandboxed Hexchat")
+    fi
+
     if [ -n "$input_file" ]; then
         /usr/bin/systemd-run \
             --user \
             --collect \
-            --unit="$FEDSAFE_SBOXED_FIREFOX_UNIT" \
+            --unit="$FEDSAFE_SBOXED_HEXCHAT_UNIT" \
             -E DISPLAY="$displayno" \
             -p PrivateUsers=yes \
             -p ProtectSystem=yes \
             -p TemporaryFileSystem=$HOME/ \
-            -p BindPaths="$FEDSAFE_SBOXED_FIREFOX_MOZILLA_FIREFOX" \
+            -p BindPaths="$FEDSAFE_SBOXED_HEXCHAT_CONFIG" \
             -p BindPaths="$FEDSAFE_SBOXED_HOME_DOWNLOADS" \
             -p BindPaths=$input_file \
-            /usr/bin/firefox $@
+            /usr/bin/hexchat
     else
         /usr/bin/systemd-run \
             --user \
             --collect \
-            --unit="$FEDSAFE_SBOXED_FIREFOX_UNIT" \
+            --unit="$FEDSAFE_SBOXED_HEXCHAT_UNIT" \
             -E DISPLAY="$displayno" \
             -p PrivateUsers=yes \
             -p ProtectSystem=yes \
             -p TemporaryFileSystem=$HOME/ \
-            -p BindPaths="$FEDSAFE_SBOXED_FIREFOX_MOZILLA_FIREFOX" \
+            -p BindPaths="$FEDSAFE_SBOXED_HEXCHAT_CONFIG" \
             -p BindPaths="$FEDSAFE_SBOXED_HOME_DOWNLOADS" \
-            /usr/bin/firefox $@
+            /usr/bin/hexchat
     fi
 }
 
@@ -164,43 +201,87 @@ function fedsafe_sboxed_telegram() {
     fi
 }
 
-function fedsafe_sboxed_hexchat() {
+function fedsafe_sboxed_thunderbird() {
     local input_file="$1"
     local new_display="$2"
     shift 2
+
+    exit 1
+
+    ############################################################################
+    # Analyze Thunderbird's arguments
+    local next_contains_profile="0"
+    local profile_name=""
+    for arg in $@; do
+        if [ "$next_contains_profile" = "1" ]; then
+            profile_name=$(basename $arg)
+            FEDSAFE_SBOXED_THUNDERBIRD_UNIT="$FEDSAFE_SBOXED_THUNDERBIRD_UNIT-$profile_name"
+            FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA_THUNDERBIRD="$FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA_THUNDERBIRD/$profile_name"
+            next_contains_profile="0"
+        fi
+
+        if [ "$arg" = "--profile" ]; then
+            next_contains_profile="1"
+        fi
+    done
+
+    ###########################################################################
+    # Check if there is already a running instance
+    local found_unit=$(/usr/bin/systemctl --user list-units | grep "$FEDSAFE_SBOXED_THUNDERBIRD_UNIT")
 
     ############################################################################
     # Screen setup
     local displayno=":0"
     if [ "$new_display" -eq 1 ]; then
-        displayno=$(fedsafe_new_display "Sandboxed Hexchat")
+        ########################################################################
+        # Deny opening a new window in the selected profile
+        if [ -n "$found_unit" ]; then
+            fedsafe_gettext "sboxed thunderbird newwindow error" >&2
+            exit 1
+        fi
+
+        local title="Sandboxed Thunderbird"
+        local nice_profile_name=""
+        if [ -n "$profile_name" ]; then
+            nice_profile_name=$(echo $profile_name | cut -d'.' -f 2)
+        fi
+
+        displayno=$(fedsafe_new_display "Sandboxed Thunderbird $nice_profile_name")
+    else
+        ########################################################################
+        # Allow just opening a new window in the selected profile
+        if [ -n "$found_unit" ]; then
+            FEDSAFE_SBOXED_THUNDERBIRD_UNIT="$FEDSAFE_SBOXED_THUNDERBIRD_UNIT$RANDOM"
+        fi
     fi
 
+    ############################################################################
+    # Start Thunderbird
     if [ -n "$input_file" ]; then
         /usr/bin/systemd-run \
             --user \
             --collect \
-            --unit="$FEDSAFE_SBOXED_HEXCHAT_UNIT" \
+            --unit="$FEDSAFE_SBOXED_THUNDERBIRD_UNIT" \
             -E DISPLAY="$displayno" \
             -p PrivateUsers=yes \
             -p ProtectSystem=yes \
             -p TemporaryFileSystem=$HOME/ \
-            -p BindPaths="$FEDSAFE_SBOXED_HEXCHAT_CONFIG" \
+            -p BindPaths="$FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA_THUNDERBIRD" \
             -p BindPaths="$FEDSAFE_SBOXED_HOME_DOWNLOADS" \
             -p BindPaths=$input_file \
-            /usr/bin/hexchat
+            /usr/bin/thunderbird $@
     else
         /usr/bin/systemd-run \
             --user \
             --collect \
-            --unit="$FEDSAFE_SBOXED_HEXCHAT_UNIT" \
+            --unit="$FEDSAFE_SBOXED_THUNDERBIRD_UNIT" \
             -E DISPLAY="$displayno" \
             -p PrivateUsers=yes \
             -p ProtectSystem=yes \
             -p TemporaryFileSystem=$HOME/ \
-            -p BindPaths="$FEDSAFE_SBOXED_HEXCHAT_CONFIG" \
+            -p BindPaths="$FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA_THUNDERBIRD" \
             -p BindPaths="$FEDSAFE_SBOXED_HOME_DOWNLOADS" \
-            /usr/bin/hexchat
+            /usr/bin/thunderbird $@
     fi
 }
 
@@ -245,12 +326,16 @@ function fedsafe_sboxed() {
             fedsafe_sboxed_firefox "$input_file" "$new_display" $@
             ;;
 
+        "hexchat")
+            fedsafe_sboxed_hexchat "$input_file" "$new_display" $@
+            ;;
+
         "telegram")
             fedsafe_sboxed_telegram "$input_file" "$new_display" $@
             ;;
 
-        "hexchat")
-            fedsafe_sboxed_hexchat "$input_file" "$new_display" $@
+        "thunderbird")
+            fedsafe_sboxed_thunderbird "$input_file" "$new_display" $@
             ;;
 
         *)
