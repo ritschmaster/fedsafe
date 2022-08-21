@@ -35,8 +35,8 @@ FEDSAFE_SBOXED_HEXCHAT_CONFIG="$HOME/.config/hexchat"
 FEDSAFE_SBOXED_TELEGRAM_UNIT="fedsafe-sboxed-telegram"
 
 FEDSAFE_SBOXED_THUNDERBIRD_UNIT="fedsafe-sboxed-firefox"
-FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA="$HOME/.mozilla"
-FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA_THUNDERBIRD="$FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA/firefox"
+FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA="$HOME/.thunderbird"
+FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA_THUNDERBIRD="$FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA"
 FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA_PROFILES_INI="$FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA_THUNDERBIRD/profiles.ini"
 
 function fedsafe_sboxed_print_help() {
@@ -45,6 +45,14 @@ function fedsafe_sboxed_print_help() {
     echo -en "\n"
 
     fedsafe_gettext "sboxed help text"
+}
+
+function fedsafe_sboxed_default_systemd_args() {
+    echo "--user\n"
+    echo "--collect\n"
+    echo "-E DISPLAY=\"$displayno\"\n"
+    echo "-p PrivateUsers=yes\n"
+    echo "-p BindPaths=\"$FEDSAFE_SBOXED_HOME_DOWNLOADS\"\n"
 }
 
 function fedsafe_sboxed_firefox() {
@@ -101,12 +109,7 @@ function fedsafe_sboxed_firefox() {
 
     ############################################################################
     # Start Firefox
-    local systemd_args=""
-    systemd_args="$systemd_args--user\n"
-    systemd_args="$systemd_args--collect\n"
-    systemd_args="$systemd_args-E DISPLAY=\"$displayno\"\n"
-    systemd_args="$systemd_args-p PrivateUsers=yes\n"
-    systemd_args="$systemd_args-p BindPaths=\"$FEDSAFE_SBOXED_HOME_DOWNLOADS\"\n"
+    local systemd_args=$(fedsafe_sboxed_default_systemd_args)
 
     systemd_args="$systemd_args-p ProtectSystem=yes\n"
     systemd_args="$systemd_args-p TemporaryFileSystem=$HOME\n"
@@ -206,8 +209,6 @@ function fedsafe_sboxed_thunderbird() {
     local new_display="$2"
     shift 2
 
-    exit 1
-
     ############################################################################
     # Analyze Thunderbird's arguments
     local next_contains_profile="0"
@@ -257,32 +258,21 @@ function fedsafe_sboxed_thunderbird() {
 
     ############################################################################
     # Start Thunderbird
+    #
+    local systemd_args=$(fedsafe_sboxed_default_systemd_args)
+
+    systemd_args="$systemd_args-p ProtectSystem=yes\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=$HOME\n"
+
     if [ -n "$input_file" ]; then
-        /usr/bin/systemd-run \
-            --user \
-            --collect \
-            --unit="$FEDSAFE_SBOXED_THUNDERBIRD_UNIT" \
-            -E DISPLAY="$displayno" \
-            -p PrivateUsers=yes \
-            -p ProtectSystem=yes \
-            -p TemporaryFileSystem=$HOME/ \
-            -p BindPaths="$FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA_THUNDERBIRD" \
-            -p BindPaths="$FEDSAFE_SBOXED_HOME_DOWNLOADS" \
-            -p BindPaths=$input_file \
-            /usr/bin/thunderbird $@
-    else
-        /usr/bin/systemd-run \
-            --user \
-            --collect \
-            --unit="$FEDSAFE_SBOXED_THUNDERBIRD_UNIT" \
-            -E DISPLAY="$displayno" \
-            -p PrivateUsers=yes \
-            -p ProtectSystem=yes \
-            -p TemporaryFileSystem=$HOME/ \
-            -p BindPaths="$FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA_THUNDERBIRD" \
-            -p BindPaths="$FEDSAFE_SBOXED_HOME_DOWNLOADS" \
-            /usr/bin/thunderbird $@
+        systemd_args="$systemd_args-p BindPaths=\"$input_file\"\n"
     fi
+
+    systemd_args="$systemd_args-p BindPaths=\"$FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA_THUNDERBIRD\"\n"
+    systemd_args="$systemd_args--unit=\"$FEDSAFE_SBOXED_THUNDERBIRD_UNIT\"\n"
+    systemd_args="$systemd_args/usr/bin/thunderbird $@"
+
+    echo -en $systemd_args | xargs /usr/bin/systemd-run
 }
 
 function fedsafe_sboxed() {
