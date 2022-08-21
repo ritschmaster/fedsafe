@@ -34,45 +34,21 @@ function fedsafe_determine_screen_size() {
 function fedsafe_new_display() {
     local window_title="$1"
 
-    local displayno_file=$(mktemp)
-
-    exec 5>"$displayno_file"
-    # /usr/bin/systemd-run \
-    #     --user \
-    #     --collect \
-    #     -p PrivateUsers=yes \
-    #     -p TemporaryFileSystem=/tmp \
-    #     -p BindPaths="$displayno_file" \
-    #     /usr/bin/Xephyr -resizeable -screen $(fedsafe_determine_screen_size) -title "$window_title" -displayfd 5
-
-    # /usr/bin/Xephyr \
-    #     -resizeable \
-    #     -screen $(fedsafe_determine_screen_size) \
-    #     -title "$window_title" \
-    #     -nolock \
-    #     -terminate \
-    #     -reset \
-    #     -dpi 96.0 \
-    #     -nolisten tcp \
-    #     -displayfd 5 \
-    #     >/dev/null & disown
-
-    /usr/bin/Xephyr \
+    local xephyr_unit="fedsafe-xephyr-$RANDOM"
+    /usr/bin/systemd-run \
+        --user \
+        --collect \
+        --unit=$xephyr_unit \
+        /usr/bin/Xephyr \
         -resizeable \
         -screen $(fedsafe_determine_screen_size) \
         -title "$window_title" \
-        -displayfd 5 \
-        >/dev/null & disown
-
-    xephyr_pid=$(pidof /usr/bin/Xephyr | cut -d' ' -f 1)
+        -displayfd 1
 
     sleep 2s
-    exec 5>&-
-
-    local displayno=$(cat "$displayno_file")
-    displayno=":$displayno"
-
-    rm "$displayno_file"
+    local xephyr_pid=$(systemctl show --user --property MainPID --value $xephyr_unit)
+    local displayno=$(systemctl status --user --output=json-pretty $xephyr_unit | grep "MESSAGE" | tail -n 1)
+    displayno=":${displayno:14:-2}"
 
     /usr/bin/systemd-run \
         --user \
