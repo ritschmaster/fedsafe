@@ -27,7 +27,7 @@
 fedsafe sboxed \- Sandboxes for important applications
 .SH "SYNOPSIS"
 .sp
-fedsafe sboxed [<args>] <application>
+fedsafe sboxed [<options>] <application> [<args>]
 
 .SH "OPTIONS"
 .PP
@@ -38,7 +38,7 @@ Print the help and exit\&.
 .PP
 \-i <input-file>
 .RS 4
-Give the sandbox the access to a specified file or directory. Depending on the configuration of the sandbox the file might already be accessible.
+Give the sandbox access to a specified file or directory. Depending on the configuration of the sandbox the file might already be accessible.
 .RE
 .PP
 \-n <value>
@@ -50,41 +50,41 @@ The default value is 1.
 .PP
 
 .SH "APPLICATION"
-evince
-.RS 4
-Starts Telegram Deskop chat application in a sandbox.
-.PP
-.RS 4
-If you are using -n 1, then please make sure to check the option Settings > Advanced > Use system winodw frame.
-.PP
-If you are using -n 1, then please make sure to check the option Settings > Notifications and Sounds > Use native notifications. Otherwise you will not receive any popup notifications.
-.RE
-.RE
-.PP
-
 .PP
 firefox
 .RS 4
-Starts the Mozilla Firefox web browser in a sandbox.
+Starts the web browser 'Mozilla Firefox'  in a sandbox.
 .PP
 .RS 4
 Profiles are separated in different sandbox environments automatically.
 .PP
-If you are using -n 1, then starting a Firefox sandbox multiple times will open a new window for the same instance but in a new Xserver.
+If using -n 1, then starting a Firefox sandbox multiple times is not supported.
 .RE
 .RE
 .PP
 
-libreoffice_calc
+hexchat
 .RS 4
-Starts the HexChat IRC client in a sandbox.
+Starts the IRC client 'HexChat' in a sandbox.
 .RE
 .PP
 .sp
 
-libreoffice_writer
+telegram
 .RS 4
-Starts the HexChat IRC client in a sandbox.
+Starts chat application 'Telegram Deskop' in a sandbox.
+.PP
+.RS 4
+If you are using -n 1, then please make sure to check the option Settings > Advanced > Use system winodw frame.
+.PP
+Caution: If you are using -n 1, then you will not receive any popup notifications.
+.RE
+.RE
+.PP
+
+thunderbird
+.RS 4
+Starts the e-mail client 'Mozilla Thunderbird' in a sandbox.
 .RE
 .PP
 .sp

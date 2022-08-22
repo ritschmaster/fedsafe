@@ -26,7 +26,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([fedsafe], [0.1], [])
+AC_INIT([fedsafe], [0.2], [])
 
 AM_INIT_AUTOMAKE
 

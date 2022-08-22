@@ -3,7 +3,7 @@
 .\"    Manual: fedsafe Manual
 .\"  Language: English
 .\"
-.TH "PACKAGE_NAME sboxed" "1" "01/16/2021" "PACKAGE_NAME PACKAGE_VERSION" "PACKAGE_NAME Manual"
+.TH "PACKAGE_NAME dboxed" "1" "01/16/2021" "PACKAGE_NAME PACKAGE_VERSION" "PACKAGE_NAME Manual"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -24,10 +24,11 @@
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-fedsafe sboxed \- Sandboxes for important applications
+fedsafe dboxed \- Disposable sandboxes for applications that might require disposable sandboxes
 .SH "SYNOPSIS"
 .sp
-fedsafe sboxed [<args>] <application>
+fedsafe dboxed [<options>] <application> [<args>]
+
 .SH "OPTIONS"
 .PP
 \-h
@@ -37,34 +38,38 @@ Print the help and exit\&.
 .PP
 \-i <input-file>
 .RS 4
-Give the sandbox the access to a specified file or directory. Depending on the configuration of the sandbox the file might already be accessible.
+Give the disposable sandbox access to a specified file or directory.
 .RE
 .PP
-\-n <value>
-.RS 4
-If a value of 1 is supplied, then a new Xserver is created in which the application will be executed. If the value 0 is supplied, then the current Xserver is used.
-.PP
-The default value is 1.
-.RE
-.PP
+
 .SH "APPLICATION"
+evince
+.RS 4
+Starts the PDF viewer 'Evince' in a disposable sandbox.
+.RE
+.PP
+
 .PP
 firefox
 .RS 4
-Starts the Mozilla Firefox web browser in a sandbox.
+Starts the web browser 'Mozilla Firefox' in a disposable sandbox.
 .RE
 .PP
-Telegram
+
+libreoffice_calc
 .RS 4
-Starts Telegram Deskop chat application in a sandbox.
-.RE
-.PP
-HexChat
-.RS 4
-Starts the HexChat IRC client in a sandbox.
+Starts the spreadsheet application 'Libreoffice Calc' in a diposable sandbox.
 .RE
 .PP
 .sp
+
+libreoffice_writer
+.RS 4
+Starts the word processor 'Libreoffice Writer' in a disposable sandbox.
+.RE
+.PP
+.sp
+
 .SH "FEDSAFE"
 .sp
 Part of the fedsafe(1) suite

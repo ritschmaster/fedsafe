@@ -23,12 +23,18 @@
 ################################################################################
 
 man1_MANS =  fedsafe.1
-man1_MANS += fedsafe.sboxed.1
+man1_MANS += fedsafe-box.1
+man1_MANS += fedsafe-dboxed.1
+man1_MANS += fedsafe-sboxed.1
 
-dist_man_MANS =  fedsafe.1
-dist_man_MANS += fedsafe.sboxed.1
+EXTRA_DIST =  fedsafe.1.in
+EXTRA_DIST += fedsafe-box.1.in
+EXTRA_DIST += fedsafe-dboxed.1.in
+EXTRA_DIST += fedsafe-sboxed.1.in
 
-fedsafe.1: fedsafe.1.in
-	cp fedsafe.1.in fedsafe.1
-	sed -i s/PACKAGE_NAME/@PACKAGE_NAME@/g fedsafe.1
-	sed -i s/PACKAGE_VERSION/@PACKAGE_VERSION@/g fedsafe.1
+all-local: ${man1_MANS}
+
+%.1:
+	cp ${@:.1=.1.in} $@
+	sed -i s/PACKAGE_NAME/@PACKAGE_NAME@/g $@
+	sed -i s/PACKAGE_VERSION/@PACKAGE_VERSION@/g $@

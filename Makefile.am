@@ -22,9 +22,9 @@
 # SOFTWARE.
 ################################################################################
 
-SUBDIRS = src po # man
+SUBDIRS = src po man
 
-dist_doc_DATA = README README.md
+EXTRA_DIST = README README.md
 
 ACLOCAL_AMFLAGS = -I m4
 

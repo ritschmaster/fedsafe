@@ -47,7 +47,7 @@ packaging/
 src/fedsafe
 
 man/fedsafe.1
-man/fedsafe.box.1
-man/fedsafe.sboxed.1
-man/fedsafe.sboxed.1
-man/fedsafe.setup.1
+man/fedsafe-box.1
+man/fedsafe-dboxed.1
+man/fedsafe-sboxed.1
+man/fedsafe-setup.1

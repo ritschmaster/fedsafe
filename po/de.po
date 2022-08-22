@@ -19,7 +19,8 @@ msgstr ""
 
 #: ../src/main.in.sh:32
 msgid "help text\n"
-msgstr "Usage <command> [options]\n"
+msgstr ""
+"Usage <command> [options]\n"
 "\n"
 "Available commands are:\n"
 "\tsetup\tEasy security setups\n"
