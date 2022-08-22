@@ -34,7 +34,7 @@ FEDSAFE_SBOXED_HEXCHAT_CONFIG="$HOME/.config/hexchat"
 
 FEDSAFE_SBOXED_TELEGRAM_UNIT="fedsafe-sboxed-telegram"
 
-FEDSAFE_SBOXED_THUNDERBIRD_UNIT="fedsafe-sboxed-firefox"
+FEDSAFE_SBOXED_THUNDERBIRD_UNIT="fedsafe-sboxed-thunderbird"
 FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA="$HOME/.thunderbird"
 FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA_THUNDERBIRD="$FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA"
 FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA_PROFILES_INI="$FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA_THUNDERBIRD/profiles.ini"
@@ -52,7 +52,15 @@ function fedsafe_sboxed_default_systemd_args() {
     echo "--collect\n"
     echo "-E DISPLAY=\"$displayno\"\n"
     echo "-p PrivateUsers=yes\n"
+    echo "-p ProtectClock=yes\n"
     echo "-p BindPaths=\"$FEDSAFE_SBOXED_HOME_DOWNLOADS\"\n"
+    echo "-p SystemCallFilter=~@reboot\n"
+    echo "-p SystemCallFilter=\"~mount mount_setattr umount move_mount umount2\"\n"
+    echo "-p SystemCallFilter=~@setuid\n"
+    echo "-p SystemCallFilter=~@swap\n"
+    echo "-p SystemCallFilter=~@module\n"
+    #echo "-p SystemCallFilter=~@privileged\n" # TODO
+    #echo "-p SystemCallFilter=~@process\n" # TODO
 }
 
 function fedsafe_sboxed_firefox() {
