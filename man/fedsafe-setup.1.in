@@ -24,10 +24,11 @@
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-fedsafe box \- Inspect or perform an operation on a running (disposable) sandbox.
+fedsafe setup \- Setup sane security defaults
 .SH "SYNOPSIS"
 .sp
-fedsafe box [<options>] <command>
+fedsafe setup [<options>] <command>
+
 .SH "OPTIONS"
 .PP
 \-h
@@ -35,30 +36,26 @@ fedsafe box [<options>] <command>
 Print the help and exit\&.
 .RE
 .PP
+\-i <input-file>
+.RS 4
+Give the disposable sandbox access to a specified file or directory.
+.RE
+.PP
 
 .SH "COMMAND"
-.PP
-print_display
+hidepid
 .RS 4
-The mouse cursor will change to a crosshair. Click on a window to print out the fedsafe managed Xserver on which the clicked window is running.
-.PP
-If the window is not managed by a fedsafe Xserver, then nothing is printed.
+Setup to hide the PIDs from each unprivileged user.
 .RE
 .PP
-clipboard_copy
+
+sandboxes
 .RS 4
-The mouse cursor will change to a crosshair. Click on a window to copy the contents of the clipboard of the fedsafe managed Xserver on which the clicked window is running into the clipboard of the main (fedsafe unmanaged) Xserver.
-.PP
-If the window is not managed by a fedsafe Xserver, then nothing is printed.
+Setup Xephyr for (disposable) sandboxes.
 .RE
-.PP
-clipboard_paste
-.RS 4
-The mouse cursor will change to a crosshair. Click on a window to copy the contents of the clipboard of the main (fedsafe unmanaged) Xserver into the clipboard of the fedsafe managed Xserver on which the clicked window is running.
-.PP
-If the window is not managed by a fedsafe Xserver, then nothing is printed..RE
 .PP
 .sp
+
 .SH "FEDSAFE"
 .sp
 Part of the fedsafe(1) suite

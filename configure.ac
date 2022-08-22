@@ -27,6 +27,7 @@
 
 AC_PREREQ([2.69])
 AC_INIT([fedsafe], [0.2], [])
+AC_SUBST([PACKAGE_DATE], [2022-08-22])
 
 AM_INIT_AUTOMAKE
 

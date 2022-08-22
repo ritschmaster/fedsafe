@@ -22,6 +22,60 @@
 # SOFTWARE.
 ################################################################################
 
+function fedsafe_setup_print_help() {
+    fedsafe_print_version
+
+    echo -en "\n"
+
+    fedsafe_gettext "setup help text"
+}
+
+function fedsafe_setup_hidepid() {
+    echo -en "Execute the following command:\n"
+    echo -en 'sudo groupadd procmonitor'
+	echo -en 'sudo usermod -a -G procmonitor polkitd'
+	# sudo bash -c "echo -en \"\nproc\t/proc\tproc\tdefaults,hidepid=2,gid=$(getent group procmonitor | cut -d':' -f 3)\t0\t0\n\" >> /etc/fstab"
+}
+
+function fedsafe_setup_sandboxes() {
+    echo -en "Execute the following command:\n"
+    echo -en "sudo setsebool -P xserver_clients_write_xshm=1"
+}
+
 function fedsafe_setup() {
-    exit 1
+    while getopts "hi:" opt; do
+        case "$opt" in
+            "h")
+                fedsafe_setup_print_help
+                exit
+                ;;
+
+            *)
+                fedsafe_setup_print_help
+                exit 1
+                ;;
+
+        esac
+    done
+
+    shift $((OPTIND-1))
+
+    local command=$1
+    shift 1
+
+    case $command in
+        "hidepid")
+            fedsafe_setup_hidepid
+            ;;
+
+        "sandboxes")
+            fedsafe_setup_sandboxes
+            ;;
+
+        *)
+            fedsafe_setup_print_help
+            exit 1
+            ;;
+    esac
+
 }

@@ -3,7 +3,7 @@
 .\"    Manual: fedsafe Manual
 .\"  Language: English
 .\"
-.TH "PACKAGE_NAME dboxed" "1" "01/16/2021" "PACKAGE_NAME PACKAGE_VERSION" "PACKAGE_NAME Manual"
+.TH "PACKAGE_NAME dboxed" "1" "PACKAGE_DATE" "PACKAGE_NAME PACKAGE_VERSION" "PACKAGE_NAME Manual"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------

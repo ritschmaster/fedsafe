@@ -16,7 +16,7 @@ Easy security for new and novice Fedora users
     1. Firefox
     2. Telegram
     3. Hexchat
-4. Supply sane security defaults
+4. Setup sane security defaults
     1. `hidepid=2` (TODO)
  
 ## Dependencies 
