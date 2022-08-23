@@ -43,6 +43,8 @@ function fedsafe_new_display() {
         -resizeable \
         -screen $(fedsafe_determine_screen_size) \
         -title "$window_title" \
+        -no-host-grab \
+        -xkb-model de \
         -displayfd 1
 
     sleep 2s
@@ -59,6 +61,10 @@ function fedsafe_new_display() {
         -p ProtectHome=yes \
         /usr/bin/matchbox-window-manager \
         -use_titlebar no
+
+    host_setxkbmap=$(setxkbmap -query | grep layout: | awk '{ print $2 }')
+
+    bash -c "sleep 5s && setxkbmap -display \"$displayno\" \"$host_setxkbmap\"" & disown
 
     echo "$displayno"
 }
