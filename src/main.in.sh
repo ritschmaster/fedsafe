@@ -44,26 +44,23 @@ done
 shift $((OPTIND-1))
 
 command="$1"
+shift 1
 
 case "$command" in
 	"box")
-		shift 1
-		fedsafe_box $@
+		fedsafe_box "$@"
 		;;
 
 	"sboxed")
-		shift 1
-		fedsafe_sboxed $@
+		fedsafe_sboxed "$@"
 		;;
 
 	"dboxed")
-		shift 1
-		fedsafe_dboxed $@
+		fedsafe_dboxed "$@"
 		;;
 
 	"setup")
-		shift 1
-		fedsafe_setup $@
+		fedsafe_setup "$@"
 		;;
 
 	*)

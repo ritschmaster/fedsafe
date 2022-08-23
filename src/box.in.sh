@@ -96,17 +96,17 @@ function fedsafe_box() {
     case $command in
         "print_display")
             shift 1
-            fedsafe_box_print_display $@
+            fedsafe_box_print_display "$@"
             ;;
 
         "clipboard_copy")
             shift 1
-            fedsafe_box_clipboard_copy $@
+            fedsafe_box_clipboard_copy "$@"
             ;;
 
         "clipboard_paste")
             shift 1
-            fedsafe_box_clipboard_paste $@
+            fedsafe_box_clipboard_paste "$@"
             ;;
 
         *)

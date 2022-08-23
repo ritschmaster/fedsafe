@@ -35,9 +35,9 @@ function fedsafe_dboxed_firefox() {
     shift 1
 
     if [ -n "$input_file" ]; then
-        sandbox -X -w $(fedsafe_determine_screen_size) -t sandbox_web_t -i "$input_file" firefox $@
+        sandbox -X -w $(fedsafe_determine_screen_size) -t sandbox_web_t -i "$input_file" firefox "$@"
     else
-        sandbox -X -w $(fedsafe_determine_screen_size) -t sandbox_web_t firefox $@
+        sandbox -X -w $(fedsafe_determine_screen_size) -t sandbox_web_t firefox "$@"
     fi
 }
 
@@ -46,9 +46,9 @@ function fedsafe_dboxed_evince() {
     shift 1
 
     if [ -n "$input_file" ]; then
-        sandbox -X -w $(fedsafe_determine_screen_size) -i "$input_file" evince $@
+        sandbox -X -w $(fedsafe_determine_screen_size) -i "$input_file" evince "$@"
     else
-        sandbox -X -w $(fedsafe_determine_screen_size) evince $@
+        sandbox -X -w $(fedsafe_determine_screen_size) evince "$@"
     fi
 }
 
@@ -57,9 +57,9 @@ function fedsafe_dboxed_libreoffice_writer() {
     shift 1
 
     if [ -n "$input_file" ]; then
-        sandbox -X -w $(fedsafe_determine_screen_size) -i "$input_file" libreoffice -writer $@
+        sandbox -X -w $(fedsafe_determine_screen_size) -i "$input_file" libreoffice -writer "$@"
     else
-        sandbox -X -w $(fedsafe_determine_screen_size) libreoffice -writer $@
+        sandbox -X -w $(fedsafe_determine_screen_size) libreoffice -writer "$@"
     fi
 }
 
@@ -68,9 +68,9 @@ function fedsafe_dboxed_libreoffice_calc() {
     shift 1
 
     if [ -n "$input_file" ]; then
-        sandbox -X -w $(fedsafe_determine_screen_size) -i "$input_file" libreoffice -calc $@
+        sandbox -X -w $(fedsafe_determine_screen_size) -i "$input_file" libreoffice -calc "$@"
     else
-        sandbox -X -w $(fedsafe_determine_screen_size) libreoffice -calc $@
+        sandbox -X -w $(fedsafe_determine_screen_size) libreoffice -calc "$@"
     fi
 }
 
@@ -79,9 +79,9 @@ function fedsafe_dboxed_xterm() {
     shift 1
 
     if [ -n "$input_file" ]; then
-        sandbox -X -w $(fedsafe_determine_screen_size) -i "$input_file" xterm $@
+        sandbox -X -w $(fedsafe_determine_screen_size) -i "$input_file" xterm "$@"
     else
-        sandbox -X -w $(fedsafe_determine_screen_size) xterm $@
+        sandbox -X -w $(fedsafe_determine_screen_size) xterm "$@"
     fi
 }
 
@@ -114,23 +114,23 @@ function fedsafe_dboxed() {
 
     case $command in
         "firefox")
-            fedsafe_dboxed_firefox "$input_file" $@
+            fedsafe_dboxed_firefox "$input_file" "$@"
             ;;
 
         "evince")
-            fedsafe_dboxed_evince "$input_file" $@
+            fedsafe_dboxed_evince "$input_file" "$@"
             ;;
 
         "libreoffice_writer")
-            fedsafe_dboxed_libreoffice_writer "$input_file" $@
+            fedsafe_dboxed_libreoffice_writer "$input_file" "$@"
             ;;
 
         "libreoffice_calc")
-            fedsafe_dboxed_libreoffice_calc "$input_file" $@
+            fedsafe_dboxed_libreoffice_calc "$input_file" "$@"
             ;;
 
         "xterm")
-            fedsafe_dboxed_xterm "$input_file" $@
+            fedsafe_dboxed_xterm "$input_file" "$@"
             ;;
 
         *)

@@ -72,7 +72,7 @@ function fedsafe_sboxed_firefox() {
     # Analyze Firefox's arguments
     local next_contains_profile="0"
     local profile_name=""
-    for arg in $@; do
+    for arg in "$@"; do
         if [ "$next_contains_profile" = "1" ]; then
             profile_name=$(basename $arg)
             FEDSAFE_SBOXED_FIREFOX_UNIT="$FEDSAFE_SBOXED_FIREFOX_UNIT-$profile_name"
@@ -127,7 +127,7 @@ function fedsafe_sboxed_firefox() {
     fi
     systemd_args="$systemd_args-p BindPaths=\"$FEDSAFE_SBOXED_FIREFOX_MOZILLA_FIREFOX\"\n"
     systemd_args="$systemd_args--unit=\"$FEDSAFE_SBOXED_FIREFOX_UNIT\"\n"
-    systemd_args="$systemd_args/usr/bin/firefox $@"
+    systemd_args="$systemd_args/usr/bin/firefox \"$@\""
 
     echo -en $systemd_args | xargs /usr/bin/systemd-run
 }
@@ -221,7 +221,7 @@ function fedsafe_sboxed_thunderbird() {
     # Analyze Thunderbird's arguments
     local next_contains_profile="0"
     local profile_name=""
-    for arg in $@; do
+    for arg in "$@"; do
         if [ "$next_contains_profile" = "1" ]; then
             profile_name=$(basename $arg)
             FEDSAFE_SBOXED_THUNDERBIRD_UNIT="$FEDSAFE_SBOXED_THUNDERBIRD_UNIT-$profile_name"
@@ -278,7 +278,7 @@ function fedsafe_sboxed_thunderbird() {
 
     systemd_args="$systemd_args-p BindPaths=\"$FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA_THUNDERBIRD\"\n"
     systemd_args="$systemd_args--unit=\"$FEDSAFE_SBOXED_THUNDERBIRD_UNIT\"\n"
-    systemd_args="$systemd_args/usr/bin/thunderbird $@"
+    systemd_args="$systemd_args/usr/bin/thunderbird \"$@\""
 
     echo -en $systemd_args | xargs /usr/bin/systemd-run
 }
@@ -321,19 +321,19 @@ function fedsafe_sboxed() {
 
     case $command in
         "firefox")
-            fedsafe_sboxed_firefox "$input_file" "$new_display" $@
+            fedsafe_sboxed_firefox "$input_file" "$new_display" "$@"
             ;;
 
         "hexchat")
-            fedsafe_sboxed_hexchat "$input_file" "$new_display" $@
+            fedsafe_sboxed_hexchat "$input_file" "$new_display" "$@"
             ;;
 
         "telegram")
-            fedsafe_sboxed_telegram "$input_file" "$new_display" $@
+            fedsafe_sboxed_telegram "$input_file" "$new_display" "$@"
             ;;
 
         "thunderbird")
-            fedsafe_sboxed_thunderbird "$input_file" "$new_display" $@
+            fedsafe_sboxed_thunderbird "$input_file" "$new_display" "$@"
             ;;
 
         *)
