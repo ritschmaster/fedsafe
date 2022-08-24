@@ -44,7 +44,7 @@ function fedsafe_new_display() {
         -screen $(fedsafe_determine_screen_size) \
         -title "$window_title" \
         -no-host-grab \
-        -xkb-model de \
+        -nolock \
         -displayfd 1
 
     sleep 2s

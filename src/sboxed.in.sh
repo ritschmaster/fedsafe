@@ -33,6 +33,7 @@ FEDSAFE_SBOXED_HEXCHAT_UNIT="fedsafe-sboxed-hexchat"
 FEDSAFE_SBOXED_HEXCHAT_CONFIG="$HOME/.config/hexchat"
 
 FEDSAFE_SBOXED_TELEGRAM_UNIT="fedsafe-sboxed-telegram"
+FEDSAFE_SBOXED_TELEGRAM_CONFIG="$HOME/.local/share/TelegramDesktop"
 
 FEDSAFE_SBOXED_THUNDERBIRD_UNIT="fedsafe-sboxed-thunderbird"
 FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA="$HOME/.thunderbird"
@@ -127,7 +128,7 @@ function fedsafe_sboxed_firefox() {
     fi
     systemd_args="$systemd_args-p BindPaths=\"$FEDSAFE_SBOXED_FIREFOX_MOZILLA_FIREFOX\"\n"
     systemd_args="$systemd_args--unit=\"$FEDSAFE_SBOXED_FIREFOX_UNIT\"\n"
-    systemd_args="$systemd_args/usr/bin/firefox \"$@\""
+    systemd_args="$systemd_args/usr/bin/firefox $@"
 
     echo -en $systemd_args | xargs /usr/bin/systemd-run
 }
@@ -144,32 +145,22 @@ function fedsafe_sboxed_hexchat() {
         displayno=$(fedsafe_new_display "Sandboxed Hexchat")
     fi
 
+    ############################################################################
+    # Start HexChat
+    local systemd_args=$(fedsafe_sboxed_default_systemd_args)
+
+    systemd_args="$systemd_args-p ProtectSystem=yes\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=$HOME\n"
+
     if [ -n "$input_file" ]; then
-        /usr/bin/systemd-run \
-            --user \
-            --collect \
-            --unit="$FEDSAFE_SBOXED_HEXCHAT_UNIT" \
-            -E DISPLAY="$displayno" \
-            -p PrivateUsers=yes \
-            -p ProtectSystem=yes \
-            -p TemporaryFileSystem=$HOME/ \
-            -p BindPaths="$FEDSAFE_SBOXED_HEXCHAT_CONFIG" \
-            -p BindPaths="$FEDSAFE_SBOXED_HOME_DOWNLOADS" \
-            -p BindPaths=$input_file \
-            /usr/bin/hexchat
-    else
-        /usr/bin/systemd-run \
-            --user \
-            --collect \
-            --unit="$FEDSAFE_SBOXED_HEXCHAT_UNIT" \
-            -E DISPLAY="$displayno" \
-            -p PrivateUsers=yes \
-            -p ProtectSystem=yes \
-            -p TemporaryFileSystem=$HOME/ \
-            -p BindPaths="$FEDSAFE_SBOXED_HEXCHAT_CONFIG" \
-            -p BindPaths="$FEDSAFE_SBOXED_HOME_DOWNLOADS" \
-            /usr/bin/hexchat
+        systemd_args="$systemd_args-p BindPaths=\"$input_file\"\n"
     fi
+    systemd_args="$systemd_args-p BindPaths=\"$FEDSAFE_SBOXED_HEXCHAT_CONFIG\"\n"
+    systemd_args="$systemd_args--unit=\"$FEDSAFE_SBOXED_HEXCHAT_UNIT\"\n"
+    systemd_args="$systemd_args/usr/bin/hexchat $@"
+
+    echo -en $systemd_args | xargs /usr/bin/systemd-run
+
 }
 
 function fedsafe_sboxed_telegram() {
@@ -184,32 +175,22 @@ function fedsafe_sboxed_telegram() {
         displayno=$(fedsafe_new_display "Sandboxed Telegram")
     fi
 
+    ############################################################################
+    # Start HexChat
+    local systemd_args=$(fedsafe_sboxed_default_systemd_args)
+
+    systemd_args="$systemd_args-p ProtectSystem=yes\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=$HOME\n"
+
     if [ -n "$input_file" ]; then
-        /usr/bin/systemd-run \
-            --user \
-            --collect \
-            --unit="$FEDSAFE_SBOXED_TELEGRAM_UNIT" \
-            -E DISPLAY="$displayno" \
-            -p PrivateUsers=yes \
-            -p ProtectSystem=yes \
-            -p TemporaryFileSystem=$HOME/ \
-            -p BindPaths=$HOME/.local/share/TelegramDesktop \
-            -p BindPaths="$FEDSAFE_SBOXED_HOME_DOWNLOADS" \
-            -p BindPaths=$input_file \
-            /usr/bin/telegram-desktop
-    else
-        /usr/bin/systemd-run \
-            --user \
-            --collect \
-            --unit="$FEDSAFE_SBOXED_TELEGRAM_UNIT" \
-            -E DISPLAY="$displayno" \
-            -p PrivateUsers=yes \
-            -p ProtectSystem=yes \
-            -p TemporaryFileSystem=$HOME/ \
-            -p BindPaths=$HOME/.local/share/TelegramDesktop \
-            -p BindPaths="$FEDSAFE_SBOXED_HOME_DOWNLOADS" \
-            /usr/bin/telegram-desktop
+        systemd_args="$systemd_args-p BindPaths=\"$input_file\"\n"
     fi
+    systemd_args="$systemd_args-p BindPaths=\"$FEDSAFE_SBOXED_TELEGRAM_CONFIG\"\n"
+    systemd_args="$systemd_args--unit=\"$FEDSAFE_SBOXED_TELEGRAM_UNIT\"\n"
+    systemd_args="$systemd_args/usr/bin/telegram-desktop $@"
+
+    echo -en $systemd_args | xargs /usr/bin/systemd-run
+
 }
 
 function fedsafe_sboxed_thunderbird() {
@@ -278,7 +259,7 @@ function fedsafe_sboxed_thunderbird() {
 
     systemd_args="$systemd_args-p BindPaths=\"$FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA_THUNDERBIRD\"\n"
     systemd_args="$systemd_args--unit=\"$FEDSAFE_SBOXED_THUNDERBIRD_UNIT\"\n"
-    systemd_args="$systemd_args/usr/bin/thunderbird \"$@\""
+    systemd_args="$systemd_args/usr/bin/thunderbird $@"
 
     echo -en $systemd_args | xargs /usr/bin/systemd-run
 }
