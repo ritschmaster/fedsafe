@@ -27,20 +27,49 @@ function fedsafe_box_print_help() {
 
     echo -en "\n"
 
-    fedsafe_gettext "sbox help text"
+    fedsafe_gettext "box help text"
 }
 
 function fedsafe_box_print_display() {
-    local window_name=$(xprop | grep WM_NAME)
-    local is_dboxed=$(echo $window_name | grep 'Sandbox.*--.*')
+    local use_crosshair="0"
 
-    if [ -n "$is_dboxed" ]; then
-        window_name=${window_name:19:-2}
+    local OPTIND opt
+    while getopts "c:" opt; do
+        case "$opt" in
+            "c")
+                use_crosshair="${OPTARG}"
+                if [ "$use_crosshair" -ne 0 -a "$use_crosshair" -ne 1 ]; then
+                    fedsafe_box_print_help
+                    exit 1
+                fi
+                ;;
+            *)
+                fedsafe_box_print_help
+                exit 1
+                ;;
+        esac
+    done
+
+    local window_name=""
+
+    if [ "$use_crosshair" -eq 1 ]; then
+        window_name=$(xprop | grep WM_NAME)
+
+        local is_dboxed=$(echo $window_name | grep 'Sandbox.*--.*')
+        if [ -n "$is_dboxed" ]; then
+            window_name=${window_name:19:-2}
+        else
+            window_name=${window_name:19:-1}
+        fi
     else
-        window_name=${window_name:19:-1}
+        window_name=$(xdotool getactivewindow getwindowname)
     fi
 
     local window_pid=$(ps -x | grep "$window_name" | head -n 1 | awk '{ print $1 }')
+    if [ -z "$window_pid" ]; then
+        fedsafe_gettext "box print_display window_pid not found"
+        exit 1
+    fi
 
     local matchbox_pid=""
     if [ -n "$is_dboxed" ]; then
@@ -59,23 +88,65 @@ function fedsafe_box_print_display() {
         done
 
     fi
+    if [ -z "$matchbox_pid" ]; then
+        fedsafe_gettext "box print_display matchbox_pid not found"
+        exit 1
+    fi
 
     local window_display=$(cat /proc/$matchbox_pid/environ | tr '\0' '\n' | grep 'DISPLAY=')
     window_display=${window_display:8}
 
     echo $window_display
-    exit
 }
 
 function fedsafe_box_clipboard_copy() {
-    xsel -b -o --display $(fedsafe_box_print_display) | xsel -b -i
+    local use_crosshair="0"
+
+    local OPTIND opt
+    while getopts "c:" opt; do
+        case "$opt" in
+            "c")
+                use_crosshair="${OPTARG}"
+                if [ "$use_crosshair" -ne 0 -a "$use_crosshair" -ne 1 ]; then
+                    fedsafe_box_print_help
+                    exit 1
+                fi
+                ;;
+            *)
+                fedsafe_box_print_help
+                exit 1
+                ;;
+        esac
+    done
+
+    xsel -b -o --display $(fedsafe_box_print_display -c "$use_crosshair") | xsel -b -i
 }
 
 function fedsafe_box_clipboard_paste() {
-    xsel -b -o | xsel -b -i --display $(fedsafe_box_print_display)
+    local use_crosshair="0"
+
+    local OPTIND opt
+    while getopts "c:" opt; do
+        case "$opt" in
+            "c")
+                use_crosshair="${OPTARG}"
+                if [ "$use_crosshair" -ne 0 -a "$use_crosshair" -ne 1 ]; then
+                    fedsafe_box_print_help
+                    exit 1
+                fi
+                ;;
+            *)
+                fedsafe_box_print_help
+                exit 1
+                ;;
+        esac
+    done
+
+    xsel -b -o | xsel -b -i --display $(fedsafe_box_print_display -c $use_crosshair)
 }
 
 function fedsafe_box() {
+    local OPTIND opt
     while getopts "h" opt; do
         case "$opt" in
             "h")

@@ -88,6 +88,7 @@ function fedsafe_dboxed_xterm() {
 function fedsafe_dboxed() {
     local input_file=""
 
+    local OPTIND opt
     while getopts "hi:" opt; do
         case "$opt" in
             "h")

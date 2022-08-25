@@ -268,6 +268,7 @@ function fedsafe_sboxed() {
     local input_file=""
     local new_display="1"
 
+    local OPTIND opt
     while getopts "hi:n:" opt; do
         case "$opt" in
             "h")

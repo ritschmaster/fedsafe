@@ -43,6 +43,7 @@ function fedsafe_setup_sandboxes() {
 }
 
 function fedsafe_setup() {
+    local OPTIND opt
     while getopts "hi:" opt; do
         case "$opt" in
             "h")

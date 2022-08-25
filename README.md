@@ -23,7 +23,7 @@ Easy security for new and novice Fedora users
 
 ### Runtime
 
-    dnf install -y bash sed xdpyinfo xprop xsel fail2ban
+    dnf install -y bash sed xdpyinfo xprop xsel xdotool fail2ban
 
 ### Development
 

@@ -27,7 +27,7 @@
 fedsafe box \- Inspect or perform an operation on a running (disposable) sandbox.
 .SH "SYNOPSIS"
 .sp
-fedsafe box [<options>] <command>
+fedsafe box [<options>] <command> [<args>]
 .SH "OPTIONS"
 .PP
 \-h
@@ -40,23 +40,42 @@ Print the help and exit\&.
 .PP
 print_display
 .RS 4
-The mouse cursor will change to a crosshair. Click on a window to print out the fedsafe managed Xserver on which the clicked window is running.
+Print out the fedsafe managed Xserver on which the active window is running.
 .PP
 If the window is not managed by a fedsafe Xserver, then nothing is printed.
+.PP
+\-c <value>
+.PP
+.RS 4
+If the value is 1, then the mouse cursor will change to a crosshair. The function will be performed on the clicked window.
+.RE
 .RE
 .PP
 clipboard_copy
 .RS 4
-The mouse cursor will change to a crosshair. Click on a window to copy the contents of the clipboard of the fedsafe managed Xserver on which the clicked window is running into the clipboard of the main (fedsafe unmanaged) Xserver.
+Copy the contents of the clipboard of the fedsafe managed Xserver on which the active window is running into the clipboard of the main (fedsafe unmanaged) Xserver.
 .PP
 If the window is not managed by a fedsafe Xserver, then nothing is printed.
+.PP
+\-c <value>
+.PP
+.RS 4
+If the value is 1, then the mouse cursor will change to a crosshair. The function will be performed on the clicked window.
+.RE
 .RE
 .PP
 clipboard_paste
 .RS 4
-The mouse cursor will change to a crosshair. Click on a window to copy the contents of the clipboard of the main (fedsafe unmanaged) Xserver into the clipboard of the fedsafe managed Xserver on which the clicked window is running.
+Copy the contents of the clipboard of the main (fedsafe unmanaged) Xserver into the clipboard of the fedsafe managed Xserver on which the active window is running.
 .PP
-If the window is not managed by a fedsafe Xserver, then nothing is printed..RE
+If the window is not managed by a fedsafe Xserver, then nothing is printed.
+.PP
+\-c <value>
+.PP
+.RS 4
+If the value is 1, then the mouse cursor will change to a crosshair. The function will be performed on the clicked window.
+.RE
+.RE
 .PP
 .sp
 .SH "FEDSAFE"

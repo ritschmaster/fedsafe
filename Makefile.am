@@ -45,6 +45,7 @@ rpm:
 		-d xdpyinfo \
 		-d xprop \
 		-d xsel \
+		-d xdotool \
 		-d selinux-policy-sandbox \
 		-d policycoreutils-sandbox \
 		-d xorg-x11-server-Xephyr \
