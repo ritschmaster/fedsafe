@@ -2,7 +2,7 @@
 
 ![GitHub All Releases](https://img.shields.io/github/downloads/ritschmaster/fedsafe/total)
 
-Easy security for new and novice Fedora users
+Easy security for novice and seasoned Fedora users
 
 ## Features
 
