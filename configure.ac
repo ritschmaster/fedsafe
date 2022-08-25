@@ -26,7 +26,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([fedsafe], [0.2], [])
+AC_INIT([fedsafe], [0.3], [])
 AC_SUBST([PACKAGE_DATE], [2022-08-25])
 
 AM_INIT_AUTOMAKE

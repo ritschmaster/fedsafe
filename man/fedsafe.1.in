@@ -32,15 +32,15 @@ fedsafe [<options>] <command> [<args>]
 
 .SH "OPTIONS"
 .PP
-\-h
+-h
 .RS 4
-Print the help and exit\&.
+Print the help and exit.
 .RE
 .PP
 
-\-V
+-V
 .RS 4
-Print version and exit\&.
+Print version and exit.
 .RE
 .PP
 
@@ -49,26 +49,26 @@ Print version and exit\&.
 
 box
 .RS 4
-Inspect or perform an operation on a running (disposable) sandbox.\&.
+Inspect or perform an operation on a running (disposable) sandbox.
 .RE
 .PP
 .sp
 
 dboxed
 .RS 4
-Start a disposable sandbox.\&.
+Start a disposable sandbox.
 .RE
 .PP
 
 sboxed
 .RS 4
-Start a sandbox.\&.
+Start a sandbox.
 .RE
 .PP
 
 setup
 .RS 4
-Perform (one time) configurations of your system\&.
+Perform (one time) configurations of your system.
 .RE
 .PP
 
