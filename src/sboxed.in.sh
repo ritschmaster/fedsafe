@@ -57,7 +57,6 @@ function fedsafe_sboxed_default_systemd_args() {
     echo "-p BindPaths=\"$FEDSAFE_SBOXED_HOME_DOWNLOADS\"\n"
     echo "-p SystemCallFilter=~@reboot\n"
     echo "-p SystemCallFilter=\"~mount mount_setattr umount move_mount umount2\"\n"
-    echo "-p SystemCallFilter=~@setuid\n"
     echo "-p SystemCallFilter=~@swap\n"
     echo "-p SystemCallFilter=~@module\n"
     #echo "-p SystemCallFilter=~@privileged\n" # TODO
@@ -120,8 +119,20 @@ function fedsafe_sboxed_firefox() {
     # Start Firefox
     local systemd_args=$(fedsafe_sboxed_default_systemd_args)
 
+    systemd_args="$systemd_args-p SystemCallFilter=~@setuid\n"
     systemd_args="$systemd_args-p ProtectSystem=yes\n"
     systemd_args="$systemd_args-p TemporaryFileSystem=$HOME\n"
+    #systemd_args="$systemd_args-p TemporaryFileSystem=/bin\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=/sbin\n"
+    #systemd_args="$systemd_args-p TemporaryFileSystem=/usr/bin\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=/usr/sbin\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=/usr/local/bin\n"
+    systemd_args="$systemd_args-p BindPaths=\"/usr/bin/firefox\"\n"
+    systemd_args="$systemd_args-p BindPaths=\"/usr/bin/sh\"\n"
+    systemd_args="$systemd_args-p BindPaths=\"/usr/bin/bash\"\n"
+    systemd_args="$systemd_args-p BindPaths=\"/usr/bin/rm\"\n"
+    systemd_args="$systemd_args-p BindPaths=\"/usr/bin/rmdir\"\n"
+    systemd_args="$systemd_args-p BindPaths=\"/usr/bin/ln\"\n"
 
     if [ -n "$input_file" ]; then
         systemd_args="$systemd_args-p BindPaths=\"$input_file\"\n"
@@ -151,6 +162,12 @@ function fedsafe_sboxed_hexchat() {
 
     systemd_args="$systemd_args-p ProtectSystem=yes\n"
     systemd_args="$systemd_args-p TemporaryFileSystem=$HOME\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=/bin\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=/sbin\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=/usr/bin\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=/usr/sbin\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=/usr/local/bin\n"
+    systemd_args="$systemd_args-p BindPaths=\"/usr/bin/hexchat\"\n"
 
     if [ -n "$input_file" ]; then
         systemd_args="$systemd_args-p BindPaths=\"$input_file\"\n"
@@ -179,8 +196,15 @@ function fedsafe_sboxed_telegram() {
     # Start HexChat
     local systemd_args=$(fedsafe_sboxed_default_systemd_args)
 
+    systemd_args="$systemd_args-p SystemCallFilter=~@setuid\n"
     systemd_args="$systemd_args-p ProtectSystem=yes\n"
     systemd_args="$systemd_args-p TemporaryFileSystem=$HOME\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=/bin\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=/sbin\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=/usr/bin\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=/usr/sbin\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=/usr/local/bin\n"
+    systemd_args="$systemd_args-p BindPaths=\"/usr/bin/telegram-desktop\"\n"
 
     if [ -n "$input_file" ]; then
         systemd_args="$systemd_args-p BindPaths=\"$input_file\"\n"
@@ -250,8 +274,15 @@ function fedsafe_sboxed_thunderbird() {
     #
     local systemd_args=$(fedsafe_sboxed_default_systemd_args)
 
+    systemd_args="$systemd_args-p SystemCallFilter=~@setuid\n"
     systemd_args="$systemd_args-p ProtectSystem=yes\n"
     systemd_args="$systemd_args-p TemporaryFileSystem=$HOME\n"
+    #systemd_args="$systemd_args-p TemporaryFileSystem=/bin\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=/sbin\n"
+    #systemd_args="$systemd_args-p TemporaryFileSystem=/usr/bin\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=/usr/sbin\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=/usr/local/bin\n"
+    systemd_args="$systemd_args-p BindPaths=\"/usr/bin/thunderbird\"\n"
 
     if [ -n "$input_file" ]; then
         systemd_args="$systemd_args-p BindPaths=\"$input_file\"\n"
