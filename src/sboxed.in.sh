@@ -43,9 +43,8 @@ FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA_PROFILES_INI="$FEDSAFE_SBOXED_THUNDERBIRD_MOZ
 function fedsafe_sboxed_print_help() {
     fedsafe_print_version
 
-    echo -en "\n"
-
-    fedsafe_gettext "sboxed help text"
+    local text=$(gettext "fedsafe" "sboxed help text bin=%s")
+	printf "\n$text\n" $bin
 }
 
 function fedsafe_sboxed_default_systemd_args() {
@@ -67,6 +66,8 @@ function fedsafe_sboxed_firefox() {
     local input_file="$1"
     local new_display="$2"
     shift 2
+
+    local text=""
 
     ############################################################################
     # Analyze Firefox's arguments
@@ -96,7 +97,8 @@ function fedsafe_sboxed_firefox() {
         ########################################################################
         # Deny opening a new window in the selected profile
         if [ -n "$found_unit" ]; then
-            fedsafe_gettext "sboxed firefox newwindow error" >&2
+            text=$(gettext "sboxed firefox newwindow error bin=%1")
+	        printf "\n$text\n" $bin >&2
             exit 1
         fi
 

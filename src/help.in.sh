@@ -29,7 +29,6 @@ function fedsafe_print_version() {
 function fedsafe_print_help() {
 	fedsafe_print_version
 
-	echo -en "\n"
-
-	fedsafe_gettext "help text"
+	local text=$(gettext "fedsafe" "help text bin=%s")
+	printf "\n$text\n" $bin
 }

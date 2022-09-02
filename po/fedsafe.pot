@@ -17,26 +17,20 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/main.in.sh:32
-msgid "help text\n"
-msgstr "Usage <command> [options]\n"
-"\n"
-"Available commands are:\n"
-"\tsetup\tEasy security setups\n"
-"\tsandbox\tInspect a running sandbox\n"
-"\tsandboxed\tStart a sandbox\n"
-
-msgid "setup help text\n"
+msgid "help text bin=%s"
 msgstr ""
 
-msgid "sbox help text\n"
+msgid "box help text bin=%s"
 msgstr ""
 
-msgid "sboxed help text\n"
+msgid "dboxed help text bin=%s"
 msgstr ""
 
-msgid "sboxed firefox newwindow error\n"
+msgid "sboxed help text bin=%s"
 msgstr ""
 
-msgid "dboxed help text\n"
+msgid "sboxed firefox newwindow error bin=%s"
+msgstr ""
+
+msgid "setup help text bin=%s"
 msgstr ""

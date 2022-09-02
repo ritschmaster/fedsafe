@@ -24,21 +24,16 @@
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-fedsafe setup \- Setup sane security defaults
+fedsafe setup - Setup sane security defaults
 .SH "SYNOPSIS"
 .sp
 fedsafe setup [<options>] <command>
 
 .SH "OPTIONS"
 .PP
-\-h
+-h
 .RS 4
-Print the help and exit\&.
-.RE
-.PP
-\-i <input-file>
-.RS 4
-Give the disposable sandbox access to a specified file or directory.
+Print the help and exit.
 .RE
 .PP
 

@@ -25,15 +25,14 @@
 function fedsafe_setup_print_help() {
     fedsafe_print_version
 
-    echo -en "\n"
-
-    fedsafe_gettext "setup help text"
+    local text=$(gettext "fedsafe" "setup help text bin=%s")
+	printf "\n$text\n" $bin
 }
 
 function fedsafe_setup_hidepid() {
-    echo -en "Execute the following command:\n"
-    echo -en 'sudo groupadd procmonitor'
-	echo -en 'sudo usermod -a -G procmonitor polkitd'
+    echo -en "Execute the following commands:\n"
+    echo -en 'sudo groupadd procmonitor\n'
+	echo -en 'sudo usermod -a -G procmonitor polkitd\n'
 	# sudo bash -c "echo -en \"\nproc\t/proc\tproc\tdefaults,hidepid=2,gid=$(getent group procmonitor | cut -d':' -f 3)\t0\t0\n\" >> /etc/fstab"
 }
 

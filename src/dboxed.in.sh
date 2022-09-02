@@ -25,9 +25,8 @@
 function fedsafe_dboxed_print_help() {
     fedsafe_print_version
 
-    echo -en "\n"
-
-    fedsafe_gettext "dboxed help text"
+    local text=$(gettext "fedsafe" "dboxed help text bin=%s")
+	printf "\n$text\n" $bin
 }
 
 function fedsafe_dboxed_firefox() {

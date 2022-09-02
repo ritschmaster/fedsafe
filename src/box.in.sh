@@ -25,9 +25,8 @@
 function fedsafe_box_print_help() {
     fedsafe_print_version
 
-    echo -en "\n"
-
-    fedsafe_gettext "box help text"
+    local text=$(gettext "fedsafe" "box help text bin=%s")
+	printf "\n$text\n" $bin
 }
 
 function fedsafe_box_print_display() {
