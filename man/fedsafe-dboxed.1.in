@@ -63,9 +63,23 @@ Starts the spreadsheet application 'Libreoffice Calc' in a diposable sandbox.
 .PP
 .sp
 
+libreoffice_impress
+.RS 4
+Starts the presentation application 'Libreoffice Impress' in a disposable sandbox.
+.RE
+.PP
+.sp
+
 libreoffice_writer
 .RS 4
 Starts the word processor 'Libreoffice Writer' in a disposable sandbox.
+.RE
+.PP
+.sp
+
+xterm
+.RS 4
+Starts the terminal emulator 'XTerm' in a disposable sandbox.
 .RE
 .PP
 .sp

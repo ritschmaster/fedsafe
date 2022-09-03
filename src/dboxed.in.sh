@@ -51,17 +51,6 @@ function fedsafe_dboxed_evince() {
     fi
 }
 
-function fedsafe_dboxed_libreoffice_writer() {
-    local input_file="$1"
-    shift 1
-
-    if [ -n "$input_file" ]; then
-        sandbox -X -w $(fedsafe_determine_screen_size) -i "$input_file" libreoffice -writer "$@"
-    else
-        sandbox -X -w $(fedsafe_determine_screen_size) libreoffice -writer "$@"
-    fi
-}
-
 function fedsafe_dboxed_libreoffice_calc() {
     local input_file="$1"
     shift 1
@@ -70,6 +59,28 @@ function fedsafe_dboxed_libreoffice_calc() {
         sandbox -X -w $(fedsafe_determine_screen_size) -i "$input_file" libreoffice -calc "$@"
     else
         sandbox -X -w $(fedsafe_determine_screen_size) libreoffice -calc "$@"
+    fi
+}
+
+function fedsafe_dboxed_libreoffice_impress() {
+    local input_file="$1"
+    shift 1
+
+    if [ -n "$input_file" ]; then
+        sandbox -X -w $(fedsafe_determine_screen_size) -i "$input_file" libreoffice -impress "$@"
+    else
+        sandbox -X -w $(fedsafe_determine_screen_size) libreoffice -impress "$@"
+    fi
+}
+
+function fedsafe_dboxed_libreoffice_writer() {
+    local input_file="$1"
+    shift 1
+
+    if [ -n "$input_file" ]; then
+        sandbox -X -w $(fedsafe_determine_screen_size) -i "$input_file" libreoffice -writer "$@"
+    else
+        sandbox -X -w $(fedsafe_determine_screen_size) libreoffice -writer "$@"
     fi
 }
 
@@ -121,12 +132,16 @@ function fedsafe_dboxed() {
             fedsafe_dboxed_evince "$input_file" "$@"
             ;;
 
-        "libreoffice_writer")
-            fedsafe_dboxed_libreoffice_writer "$input_file" "$@"
-            ;;
-
         "libreoffice_calc")
             fedsafe_dboxed_libreoffice_calc "$input_file" "$@"
+            ;;
+
+        "libreoffice_impress")
+            fedsafe_dboxed_libreoffice_impress "$input_file" "$@"
+            ;;
+
+        "libreoffice_writer")
+            fedsafe_dboxed_libreoffice_writer "$input_file" "$@"
             ;;
 
         "xterm")
