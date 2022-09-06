@@ -38,6 +38,9 @@ function fedsafe_dboxed_firefox() {
     else
         sandbox -X -w $(fedsafe_determine_screen_size) -t sandbox_web_t firefox "$@" & disown
     fi
+
+    local displayno=$(sleep 1s && fedsafe_box_print_display -c 0)
+    fedsafe_box_set_host_kbmap $displayno
 }
 
 function fedsafe_dboxed_evince() {
@@ -49,6 +52,9 @@ function fedsafe_dboxed_evince() {
     else
         sandbox -X -w $(fedsafe_determine_screen_size) evince "$@" & disown
     fi
+
+    local displayno=$(sleep 1s && fedsafe_box_print_display -c 0)
+    fedsafe_box_set_host_kbmap $displayno
 }
 
 function fedsafe_dboxed_libreoffice_calc() {
@@ -60,6 +66,9 @@ function fedsafe_dboxed_libreoffice_calc() {
     else
         sandbox -X -w $(fedsafe_determine_screen_size) libreoffice -calc "$@" & disown
     fi
+
+    local displayno=$(sleep 1s && fedsafe_box_print_display -c 0)
+    fedsafe_box_set_host_kbmap $displayno
 }
 
 function fedsafe_dboxed_libreoffice_impress() {
@@ -71,6 +80,9 @@ function fedsafe_dboxed_libreoffice_impress() {
     else
         sandbox -X -w $(fedsafe_determine_screen_size) libreoffice -impress "$@" & disown
     fi
+
+    local displayno=$(sleep 1s && fedsafe_box_print_display -c 0)
+    fedsafe_box_set_host_kbmap $displayno
 }
 
 function fedsafe_dboxed_libreoffice_writer() {
@@ -82,6 +94,9 @@ function fedsafe_dboxed_libreoffice_writer() {
     else
         sandbox -X -w $(fedsafe_determine_screen_size) libreoffice -writer "$@" & disown
     fi
+
+    local displayno=$(sleep 1s && fedsafe_box_print_display -c 0)
+    fedsafe_box_set_host_kbmap $displayno
 }
 
 function fedsafe_dboxed_xterm() {
@@ -94,10 +109,8 @@ function fedsafe_dboxed_xterm() {
         sandbox -X -w $(fedsafe_determine_screen_size) xterm "$@" & disown
     fi
 
-    #sleep 2s && fedsafe_box_print_display -c 0
-    #local displayno=$(fedsafe_box_print_display -c 0)
-    #echo $displayno
-    ## fedsafe_box_set_host_kbmap # TODO
+    local displayno=$(sleep 1s && fedsafe_box_print_display -c 0)
+    fedsafe_box_set_host_kbmap $displayno
 }
 
 function fedsafe_dboxed() {
