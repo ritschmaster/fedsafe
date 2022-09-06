@@ -26,6 +26,13 @@ function fedsafe_determine_screen_size() {
     xdpyinfo | grep "dimensions" | awk '{ print $2 }'
 }
 
+function fedsafe_box_set_host_kbmap() {
+    local displayno="$1"
+
+    local host_setxkbmap=$(setxkbmap -query | grep layout: | awk '{ print $2 }')
+    bash -c "sleep 5s && setxkbmap -display \"$displayno\" \"$host_setxkbmap\"" & disown
+}
+
 # Create a new xserver for a sandbox
 #
 # The first parameter is the window title for the window containing the new xserver.
@@ -62,9 +69,7 @@ function fedsafe_new_display() {
         /usr/bin/matchbox-window-manager \
         -use_titlebar no
 
-    host_setxkbmap=$(setxkbmap -query | grep layout: | awk '{ print $2 }')
-
-    bash -c "sleep 5s && setxkbmap -display \"$displayno\" \"$host_setxkbmap\"" & disown
+    fedsafe_box_set_host_kbmap "$displayno"
 
     echo "$displayno"
 }

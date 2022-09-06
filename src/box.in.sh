@@ -50,11 +50,11 @@ function fedsafe_box_print_display() {
     done
 
     local window_name=""
-
+    local is_dboxed=""
     if [ "$use_crosshair" -eq 1 ]; then
         window_name=$(xprop | grep WM_NAME)
 
-        local is_dboxed=$(echo $window_name | grep 'Sandbox.*--.*')
+        is_dboxed=$(echo $window_name | grep 'Sandbox.*--.*')
         if [ -n "$is_dboxed" ]; then
             window_name=${window_name:19:-2}
         else
@@ -62,6 +62,7 @@ function fedsafe_box_print_display() {
         fi
     else
         window_name=$(xdotool getactivewindow getwindowname)
+        is_dboxed=$(echo $window_name | grep 'Sandbox.*--.*')
     fi
 
     local window_pid=$(ps -x | grep "$window_name" | head -n 1 | awk '{ print $1 }')
