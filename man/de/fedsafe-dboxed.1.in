@@ -3,7 +3,7 @@
 .\"    Manual: fedsafe Manual
 .\"  Language: English
 .\"
-.TH "PACKAGE_NAME" "1" "PACKAGE_DATE" "PACKAGE_NAME PACKAGE_VERSION" "PACKAGE_NAME Manual"
+.TH "PACKAGE_NAME dboxed" "1" "PACKAGE_DATE" "PACKAGE_NAME PACKAGE_VERSION" "PACKAGE_NAME Handbuch"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -24,55 +24,66 @@
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-fedsafe - Easy security for novice and seasoned Fedora users
-
+fedsafe dboxed - Wegwerf-Sandkisten für Applikationen die Wegwerf-Sandkisten benötigen könnten
 .SH "SYNOPSIS"
 .sp
-fedsafe [<options>] <command> [<arguments>]
+fedsafe dboxed [<Optionen>] <Applikation> [<args>]
 
-.SH "OPTIONS"
+.SH "OPTIONEN"
 .PP
 -h
 .RS 4
-Print the help and exit.
+Ausgabe der Hilfe und beenden.
+.RE
+.PP
+-i <Eingabedatei>
+.RS 4
+Gibt der Sandkiste den Zugriff zu einer angegebenen Datei oder Verzeichnis.
 .RE
 .PP
 
--V
+.SH "APPLIKATION"
+evince
 .RS 4
-Print version and exit.
+Startet den PDF Betrachter 'Evince' in einer Wegwerf-Sandkiste.
 .RE
 .PP
 
-.SH "COMMAND"
+.PP
+firefox
+.RS 4
+Startet den Web Browser 'Mozilla Firefox' in einer Wegwerf-Sandkiste.
+.RE
 .PP
 
-box
+libreoffice_calc
 .RS 4
-Inspect or perform an operation on a running (disposable) sandbox.
+Startet die Tabellenkalkulationsapplikation 'Libreoffice Calc' in einer Wegwerf-Sandkiste.
 .RE
 .PP
 .sp
 
-dboxed
+libreoffice_impress
 .RS 4
-Start a disposable sandbox.
+Startet die Präsentationsapplikation 'Libreoffice Impress' in einer Wegwerf-Sandkiste.
 .RE
 .PP
-
-sboxed
-.RS 4
-Start a sandbox.
-.RE
-.PP
-
-setup
-.RS 4
-Perform (one time) configurations of your system.
-.RE
-.PP
-
-.SH "AUTHOR"
 .sp
-Richard Bäck <richard.baeck@mailbox.org>
 
+libreoffice_writer
+.RS 4
+Startet die Textverarbeitungsapplikation 'Libreoffice Writer' in einer Wegwerf-Sandkiste.
+.RE
+.PP
+.sp
+
+xterm
+.RS 4
+Startet den Terminal Emulator 'XTerm' in einer Wegwerf-Sandkiste.
+.RE
+.PP
+.sp
+
+.SH "FEDSAFE"
+.sp
+Teil der fedsafe(1) Suite

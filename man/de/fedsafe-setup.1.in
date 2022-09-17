@@ -3,7 +3,7 @@
 .\"    Manual: fedsafe Manual
 .\"  Language: English
 .\"
-.TH "PACKAGE_NAME" "1" "PACKAGE_DATE" "PACKAGE_NAME PACKAGE_VERSION" "PACKAGE_NAME Manual"
+.TH "PACKAGE_NAME setup" "1" "PACKAGE_DATE" "PACKAGE_NAME PACKAGE_VERSION" "PACKAGE_NAME Handbuch"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -24,55 +24,33 @@
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-fedsafe - Easy security for novice and seasoned Fedora users
-
+fedsafe setup - Setup sane security defaults
 .SH "SYNOPSIS"
 .sp
-fedsafe [<options>] <command> [<arguments>]
+fedsafe setup [<Optionen>] <Kommando>
 
-.SH "OPTIONS"
+.SH "OPTIONEN"
 .PP
 -h
 .RS 4
-Print the help and exit.
+Ausgabe der Hilfe und beenden.
 .RE
 .PP
 
--V
+.SH "KOMMANDO"
+hidepid
 .RS 4
-Print version and exit.
+Einrichtung zum Verstecken der PIDs von jeden nicht priviligierten Benutzer.
 .RE
 .PP
 
-.SH "COMMAND"
-.PP
-
-box
+sandboxes
 .RS 4
-Inspect or perform an operation on a running (disposable) sandbox.
+Einrichten von Xephyr für (Wegwerf-) Sandkisten.
 .RE
 .PP
 .sp
 
-dboxed
-.RS 4
-Start a disposable sandbox.
-.RE
-.PP
-
-sboxed
-.RS 4
-Start a sandbox.
-.RE
-.PP
-
-setup
-.RS 4
-Perform (one time) configurations of your system.
-.RE
-.PP
-
-.SH "AUTHOR"
+.SH "FEDSAFE"
 .sp
-Richard Bäck <richard.baeck@mailbox.org>
-
+Teil der fedsafe(1) Suite

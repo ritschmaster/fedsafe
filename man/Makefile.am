@@ -28,13 +28,20 @@ man1_MANS += fedsafe-dboxed.1
 man1_MANS += fedsafe-sboxed.1
 man1_MANS += fedsafe-setup.1
 
+man1dedir 	 = $(datadir)/man/de/man1
+man1de_DATA =  de/fedsafe.1
+man1de_DATA += de/fedsafe-box.1
+man1de_DATA += de/fedsafe-dboxed.1
+man1de_DATA += de/fedsafe-sboxed.1
+man1de_DATA += de/fedsafe-setup.1
+
 EXTRA_DIST =  fedsafe.1.in
 EXTRA_DIST += fedsafe-box.1.in
 EXTRA_DIST += fedsafe-dboxed.1.in
 EXTRA_DIST += fedsafe-sboxed.1.in
 EXTRA_DIST += fedsafe-setup.1.in
 
-all-local: ${man1_MANS}
+all-local: ${man1_MANS} ${man1de_DATA}
 
 %.1: %.1.in
 	cp ${@:.1=.1.in} $@

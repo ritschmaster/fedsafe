@@ -3,7 +3,7 @@
 .\"    Manual: fedsafe Manual
 .\"  Language: English
 .\"
-.TH "PACKAGE_NAME" "1" "PACKAGE_DATE" "PACKAGE_NAME PACKAGE_VERSION" "PACKAGE_NAME Manual"
+.TH "PACKAGE_NAME" "1" "PACKAGE_DATE" "PACKAGE_NAME PACKAGE_VERSION" "PACKAGE_NAME Handbuch"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -24,55 +24,55 @@
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-fedsafe - Easy security for novice and seasoned Fedora users
+fedsafe - Einfache Sicherheit für anfängliche und fortgeschrittene Fedora Benutzer
 
-.SH "SYNOPSIS"
+.SH "KURZFASSUNG"
 .sp
-fedsafe [<options>] <command> [<arguments>]
+fedsafe [<Optionen>] <Kommando> [<Argumente>]
 
-.SH "OPTIONS"
+.SH "OPTIONEN"
 .PP
 -h
 .RS 4
-Print the help and exit.
+Ausgabe der Hilfe und beenden.
 .RE
 .PP
 
 -V
 .RS 4
-Print version and exit.
+Ausgabe der Version und beenden.
 .RE
 .PP
 
-.SH "COMMAND"
+.SH "KOMMANDO"
 .PP
 
 box
 .RS 4
-Inspect or perform an operation on a running (disposable) sandbox.
+Eine laufende (Wegwerf-) Sandkiste inspizieren oder eine Operation darauf ausführen.
 .RE
 .PP
 .sp
 
 dboxed
 .RS 4
-Start a disposable sandbox.
+Eine Wegwerf-Sandkiste starten.
 .RE
 .PP
 
 sboxed
 .RS 4
-Start a sandbox.
+Eine Sandkiste starten.
 .RE
 .PP
 
 setup
 .RS 4
-Perform (one time) configurations of your system.
+Einfache, automatische (einmalige) Sicherheits-Einrichtungen durchführen.
 .RE
 .PP
 
-.SH "AUTHOR"
+.SH "AUTOR"
 .sp
 Richard Bäck <richard.baeck@mailbox.org>
 

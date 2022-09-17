@@ -1,0 +1,98 @@
+'\" t
+.\"     Title: fedsafe
+.\"    Manual: fedsafe Manual
+.\"  Language: English
+.\"
+.TH "PACKAGE_NAME sboxed" "1" "PACKAGE_DATE" "PACKAGE_NAME PACKAGE_VERSION" "PACKAGE_NAME Handbuch"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+fedsafe sboxed \- Sandboxes for important Applikations
+.SH "SYNOPSIS"
+.sp
+fedsafe sboxed [<Optionen>] <Applikation> [<args>]
+
+.SH "OPTIONEN"
+.PP
+-h
+.RS 4
+Ausgabe der Hilfe und beenden.
+.RE
+.PP
+-i <Eingabedatei>
+.RS 4
+Gibt der Sandkiste den Zugriff zu einer angegebenen Datei oder Verzeichnis. Abhängig von der Konfiguration der Sandkiste könnte die Datei bereits zugreifbar sein.
+.RE
+.PP
+-n <Wert>
+.RS 4
+Falls der Wert 1 übergeben wird, dann wird ein neuer Xserver erstellt in welchem die Applikation ausgeführt wird. Falls der Wert 0 übergeben wird, dann wird der derzeitige Xserver verwendet.
+.PP
+Der Standardwert ist 1.
+.RE
+.PP
+
+.SH "APPLIKATION"
+.PP
+firefox
+.RS 4
+Startet den Web Browser 'Mozilla Firefox' in einer Sandkiste.
+.PP
+.RS 4
+Profile werden in verschiedene Sandkisten-Umgebungen automatisch separiert.
+.PP
+Falls -n 1, dann ist das mehrfache Starten einer Firefox Sandkiste nicht unterstützt.
+.RE
+.RE
+.PP
+
+hexchat
+.RS 4
+Startet den IRC Klienten 'HexChat' in einer Sandkiste.
+.RE
+.PP
+.sp
+
+telegram
+.RS 4
+Startet die Chat-Applikation 'Telegram Desktop' in einer Sandkiste.
+.PP
+.RS 4
+Falls -n 1, dann bitte die Option Einstellungen > Erweitert > Verwende Systemfenster setzen.
+.RE
+.RE
+.PP
+
+thunderbird
+.RS 4
+Startet den E-Mail Klienten 'Mozilla Thunderbird' in einer Sandkiste.
+.PP
+.RS 4
+Profile werden in verschiedene Sandkisten-Umgebungen automatisch separiert.
+.PP
+Falls -n 1, dann ist das mehrfache Starten einer Firefox Sandkiste nicht unterstützt.
+.RE
+.RE
+.PP
+.sp
+
+.SH "FEDSAFE"
+.sp
+Teil der fedsafe(1) Suite

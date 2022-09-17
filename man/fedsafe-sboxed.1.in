@@ -31,17 +31,17 @@ fedsafe sboxed [<options>] <application> [<args>]
 
 .SH "OPTIONS"
 .PP
-\-h
+-h
 .RS 4
-Print the help and exit\&.
+Print the help and exit.
 .RE
 .PP
-\-i <input-file>
+-i <input-file>
 .RS 4
 Give the sandbox access to a specified file or directory. Depending on the configuration of the sandbox the file might already be accessible.
 .RE
 .PP
-\-n <value>
+-n <value>
 .RS 4
 If a value of 1 is supplied, then a new Xserver is created in which the application will be executed. If the value 0 is supplied, then the current Xserver is used.
 .PP
@@ -53,7 +53,7 @@ The default value is 1.
 .PP
 firefox
 .RS 4
-Starts the web browser 'Mozilla Firefox'  in a sandbox.
+Starts the web browser 'Mozilla Firefox' in a sandbox.
 .PP
 .RS 4
 Profiles are separated in different sandbox environments automatically.
@@ -75,9 +75,7 @@ telegram
 Starts chat application 'Telegram Deskop' in a sandbox.
 .PP
 .RS 4
-If you are using -n 1, then please make sure to check the option Settings > Advanced > Use system winodw frame.
-.PP
-Caution: If you are using -n 1, then you will not receive any popup notifications.
+If using -n 1, then please make sure to check the option Settings > Advanced > Use system window frame.
 .RE
 .RE
 .PP
@@ -85,6 +83,12 @@ Caution: If you are using -n 1, then you will not receive any popup notification
 thunderbird
 .RS 4
 Starts the e-mail client 'Mozilla Thunderbird' in a sandbox.
+.PP
+.RS 4
+Profiles are separated in different sandbox environments automatically.
+.PP
+If using -n 1, then starting a Firefox sandbox multiple times is not supported.
+.RE
 .RE
 .PP
 .sp

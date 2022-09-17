@@ -24,15 +24,17 @@
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-fedsafe box \- Inspect or perform an operation on a running (disposable) sandbox.
+fedsafe box - Inspect or perform an operation on a running (disposable) sandbox.
+
 .SH "SYNOPSIS"
 .sp
 fedsafe box [<options>] <command> [<args>]
+
 .SH "OPTIONS"
 .PP
-\-h
+-h
 .RS 4
-Print the help and exit\&.
+Print the help and exit.
 .RE
 .PP
 
@@ -44,7 +46,7 @@ Print out the fedsafe managed Xserver on which the active window is running.
 .PP
 If the window is not managed by a fedsafe Xserver, then nothing is printed.
 .PP
-\-c <value>
+-c <value>
 .PP
 .RS 4
 If the value is 1, then the mouse cursor will change to a crosshair. The function will be performed on the clicked window.
@@ -57,7 +59,7 @@ Copy the contents of the clipboard of the fedsafe managed Xserver on which the a
 .PP
 If the window is not managed by a fedsafe Xserver, then nothing is printed.
 .PP
-\-c <value>
+-c <value>
 .PP
 .RS 4
 If the value is 1, then the mouse cursor will change to a crosshair. The function will be performed on the clicked window.
@@ -70,7 +72,7 @@ Copy the contents of the clipboard of the main (fedsafe unmanaged) Xserver into 
 .PP
 If the window is not managed by a fedsafe Xserver, then nothing is printed.
 .PP
-\-c <value>
+-c <value>
 .PP
 .RS 4
 If the value is 1, then the mouse cursor will change to a crosshair. The function will be performed on the clicked window.
