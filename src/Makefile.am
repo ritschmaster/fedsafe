@@ -64,3 +64,4 @@ fedsafe: $(fedsafe_SCRIPTS_SOURCES)
 	chmod +x fedsafe
 	sed -i s/PACKAGE_NAME/@PACKAGE_NAME@/g fedsafe
 	sed -i s/PACKAGE_VERSION/@PACKAGE_VERSION@/g fedsafe
+	sed -i '/#.*/{25,$$d}' fedsafe
