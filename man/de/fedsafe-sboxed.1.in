@@ -93,6 +93,13 @@ Falls -n 1, dann ist das mehrfache Starten einer Firefox Sandkiste nicht unterst
 .PP
 .sp
 
+transmission
+.RS 4
+Startet den BitTorrent Klienten 'Transmission' in einer Sandkiste.
+.RE
+.PP
+.sp
+
 .SH "FEDSAFE"
 .sp
 Teil der fedsafe(1) Suite

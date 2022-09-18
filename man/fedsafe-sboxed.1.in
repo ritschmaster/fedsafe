@@ -93,6 +93,13 @@ If using -n 1, then starting a Firefox sandbox multiple times is not supported.
 .PP
 .sp
 
+transmission
+.RS 4
+Starts the BitTorrent client 'Transmission' in a sandbox.
+.RE
+.PP
+.sp
+
 .SH "FEDSAFE"
 .sp
 Part of the fedsafe(1) suite
