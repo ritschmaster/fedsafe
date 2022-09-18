@@ -288,6 +288,8 @@ function fedsafe_sboxed_thunderbird() {
     systemd_args="$systemd_args-p TemporaryFileSystem=/usr/sbin\n"
     systemd_args="$systemd_args-p TemporaryFileSystem=/usr/local/bin\n"
     systemd_args="$systemd_args-p BindPaths=\"/usr/bin/thunderbird\"\n"
+    systemd_args="$systemd_args-p BindPaths=\"/usr/bin/gpg\"\n"
+    systemd_args="$systemd_args-p BindPaths=\"$HOME/.gnupg\"\n"
 
     if [ -n "$input_file" ]; then
         systemd_args="$systemd_args-p BindPaths=\"$input_file\"\n"
