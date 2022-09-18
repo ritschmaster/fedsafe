@@ -43,6 +43,8 @@ desktop_DATA += applications/fedsafe-dboxed-xterm.desktop
 desktop_DATA += applications/fedsafe-sboxed-firefox.desktop
 desktop_DATA += applications/fedsafe-sboxed-hexchat.desktop
 desktop_DATA += applications/fedsafe-sboxed-telegram.desktop
+desktop_DATA += applications/fedsafe-sboxed-thunderbird.desktop
+desktop_DATA += applications/fedsafe-sboxed-transmission.desktop
 
 fedsafebindir = $(datadir)/fedsafe/bin
 fedsafebin_DATA =  bin/fedsafe_dboxed_evince.sh
@@ -53,6 +55,8 @@ fedsafebin_DATA += bin/fedsafe_dboxed_libreoffice_writer.sh
 fedsafebin_DATA += bin/fedsafe_sboxed_firefox.sh
 fedsafebin_DATA += bin/fedsafe_sboxed_hexchat.sh
 fedsafebin_DATA += bin/fedsafe_sboxed_telegram.sh
+fedsafebin_DATA += bin/fedsafe_sboxed_thunderbird.sh
+fedsafebin_DATA += bin/fedsafe_sboxed_transmission.sh
 
 CLEANFILES = $(bin_SCRIPTS)
 

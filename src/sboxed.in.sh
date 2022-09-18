@@ -40,6 +40,10 @@ FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA="$HOME/.thunderbird"
 FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA_THUNDERBIRD="$FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA"
 FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA_PROFILES_INI="$FEDSAFE_SBOXED_THUNDERBIRD_MOZILLA_THUNDERBIRD/profiles.ini"
 
+FEDSAFE_SBOXED_TRANSMISSION_UNIT="fedsafe-sboxed-transmission"
+FEDSAFE_SBOXED_TRANSMISSION_CONFIG="$HOME/.config/transmission"
+FEDSAFE_SBOXED_TRANSMISSION_CACHE="$HOME/.cache/transmission"
+
 function fedsafe_sboxed_print_help() {
     fedsafe_print_version
 
@@ -179,7 +183,6 @@ function fedsafe_sboxed_hexchat() {
     systemd_args="$systemd_args/usr/bin/hexchat $@"
 
     echo -en $systemd_args | xargs /usr/bin/systemd-run
-
 }
 
 function fedsafe_sboxed_telegram() {
@@ -297,6 +300,42 @@ function fedsafe_sboxed_thunderbird() {
     echo -en $systemd_args | xargs /usr/bin/systemd-run
 }
 
+function fedsafe_sboxed_transmission() {
+    local input_file="$1"
+    local new_display="$2"
+    shift 2
+
+    ############################################################################
+    # Screen setup
+    local displayno=":0"
+    if [ "$new_display" -eq 1 ]; then
+        displayno=$(fedsafe_new_display "Sandboxed Transmission")
+    fi
+
+    ############################################################################
+    # Start HexChat
+    local systemd_args=$(fedsafe_sboxed_default_systemd_args)
+
+    systemd_args="$systemd_args-p ProtectSystem=yes\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=$HOME\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=/bin\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=/sbin\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=/usr/bin\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=/usr/sbin\n"
+    systemd_args="$systemd_args-p TemporaryFileSystem=/usr/local/bin\n"
+    systemd_args="$systemd_args-p BindPaths=\"/usr/bin/transmission-gtk\"\n"
+
+    if [ -n "$input_file" ]; then
+        systemd_args="$systemd_args-p BindPaths=\"$input_file\"\n"
+    fi
+    systemd_args="$systemd_args-p BindPaths=\"$FEDSAFE_SBOXED_TRANSMISSION_CONFIG\"\n"
+    systemd_args="$systemd_args-p BindPaths=\"$FEDSAFE_SBOXED_TRANSMISSION_CACHE\"\n"
+    systemd_args="$systemd_args--unit=\"$FEDSAFE_SBOXED_TRANSMISSION_UNIT\"\n"
+    systemd_args="$systemd_args/usr/bin/transmission-gtk $@"
+
+    echo -en $systemd_args | xargs /usr/bin/systemd-run
+}
+
 function fedsafe_sboxed() {
     local input_file=""
     local new_display="1"
@@ -349,6 +388,10 @@ function fedsafe_sboxed() {
 
         "thunderbird")
             fedsafe_sboxed_thunderbird "$input_file" "$new_display" "$@"
+            ;;
+
+        "transmission")
+            fedsafe_sboxed_transmission "$input_file" "$new_display" "$@"
             ;;
 
         *)

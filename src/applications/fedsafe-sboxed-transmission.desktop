@@ -1,0 +1,16 @@
+[Desktop Entry]
+Name=Sandboxed Transmission
+GenericName=Sandboxed BitTorrent Client
+Comment=Sandboxed download and share files over BitTorrent
+# Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+Keywords=torrents;downloading;uploading;share;sharing;
+Exec=/usr/bin/bash /usr/share/fedsafe/bin/fedsafe_sboxed_transmission.sh %u
+Icon=transmission
+Terminal=false
+Type=Application
+StartupNotify=true
+MimeType=application/x-bittorrent;x-scheme-handler/magnet;
+Categories=Network;FileTransfer;P2P;GTK;
+X-Ubuntu-Gettext-Domain=transmission
+X-AppInstall-Keywords=torrent
+Actions=Pause;Minimize;

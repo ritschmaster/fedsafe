@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Name=Sandboxed Thunderbird
+GenericName=Sandboxed Email
+Comment=Send and Receive Email
+Exec=/usr/bin/bash /usr/share/fedsafe/bin/fedsafe_sboxed_thunderbird.sh %u
+Icon=thunderbird
+Terminal=false
+Type=Application
+MimeType=message/rfc822;x-scheme-handler/mailto;
+StartupNotify=true
+Categories=Network;Email;
+Comment[de]=Sandgekistet Emails lesen und verfassen
+X-Desktop-File-Install-Version=0.26
